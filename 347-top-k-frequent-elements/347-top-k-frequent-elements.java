@@ -17,8 +17,7 @@ class Solution {
         }
         List<Integer> ans = new ArrayList();
         for (int i = nums.length; i >= 1; i--) {
-            if (freqBucket[i] != null) {
-                for (Integer val: freqBucket[i]) {
+            for (Integer val: freqBucket[i]) {
                 ans.add(val);
                 if (ans.size() == k) {
                    for (int j = 0; j < k; j++) {
@@ -27,8 +26,6 @@ class Solution {
                     return res;
                 }
             }
-            }
-            
         }
         return res;
         

@@ -18,3 +18,6 @@ class Solution {
         return ans;
     }
 }
+
+//tc: O(n)
+//sc: O(n)

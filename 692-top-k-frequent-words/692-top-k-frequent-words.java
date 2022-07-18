@@ -21,6 +21,8 @@ class Solution {
         }
         Collections.reverse(ans);
         return ans;
-            
     }
 }
+
+//tc: O(nlogk)
+//sc: O(n)

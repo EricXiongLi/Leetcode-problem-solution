@@ -28,4 +28,5 @@ class Solution {
     }
 }
 
-//tc: O(n)
+//tc: O(m + n)
+//sc: O(min(m, n))

@@ -30,3 +30,6 @@ class Solution {
             
     }
 }
+
+//tc: O(n)
+//sc: P(1)

@@ -28,3 +28,6 @@ class Solution {
         return leftHead.next;
     }
 }
+
+//tc: O(n)
+//sc: O(1)

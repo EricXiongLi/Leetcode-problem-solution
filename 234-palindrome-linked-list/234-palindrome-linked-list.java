@@ -33,6 +33,7 @@ class Solution {
             left = left.next;
             right = right.next;
         }
+        //rember to reverse the list back
         return true;
     }
     
@@ -53,3 +54,6 @@ class Solution {
         return prev;
     }
 }
+
+//tc: O(n)
+//sc: O(1)

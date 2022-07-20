@@ -24,3 +24,6 @@ class Solution {
         return ans == Integer.MAX_VALUE ? 0 : ans;
     }
 }
+
+//tc: O(n)
+//sc: O(1)

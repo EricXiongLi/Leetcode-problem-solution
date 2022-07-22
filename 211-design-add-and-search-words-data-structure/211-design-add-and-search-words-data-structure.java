@@ -29,10 +29,9 @@ class WordDictionary {
         if (index == word.length()) {
             return root != null && root.end;
         }
-        if (root == null) return false;
         if (word.charAt(index) == '.') {
             for (int i = 0; i < 26; i++) {
-                if (dfs(word, root.tns[i], index + 1)) return true;
+                if (root != null && dfs(word, root.tns[i], index + 1)) return true;
             }
             return false;
         } else {

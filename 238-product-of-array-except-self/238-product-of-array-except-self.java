@@ -24,3 +24,6 @@ class Solution {
         return ans;
     }
 }
+
+//tc: o(n)
+//sc: O(n)

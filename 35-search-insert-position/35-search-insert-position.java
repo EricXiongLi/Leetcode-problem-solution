@@ -13,3 +13,5 @@ class Solution {
         return l;
     }
 }
+
+//tc: O(log n)  sc: O(1)

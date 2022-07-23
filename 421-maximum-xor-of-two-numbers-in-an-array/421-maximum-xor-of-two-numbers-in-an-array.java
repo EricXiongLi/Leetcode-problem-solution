@@ -17,7 +17,8 @@ class Solution {
                 }
             }
         }
-        
         return maxRes;
     }
 }
+
+//tc: O(32 * n) sc: O(n)

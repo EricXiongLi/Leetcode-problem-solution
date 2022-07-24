@@ -43,5 +43,5 @@ class DSU {
     
 }
 
-//tc: O(m ^ 2)
-//sc: O(m)
+//tc: O( alpha(n) * n ^ 2 )
+//sc: O(n)

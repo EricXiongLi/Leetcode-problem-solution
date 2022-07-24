@@ -42,3 +42,6 @@ class DSU {
     }
     
 }
+
+//tc: O(m ^ 2)
+//sc: O(m)

@@ -23,7 +23,7 @@ class TrieNode {
     
     public void addNum(TrieNode root, int num) {
         TrieNode cur = root;
-        for (int i = 30; i>= 0; i--) {
+        for (int i = 31; i>= 0; i--) {
             int curBit = (num >> i) & 1;
             if (cur.children[curBit] == null) cur.children[curBit] = new TrieNode();
             cur = cur.children[curBit];
@@ -33,7 +33,7 @@ class TrieNode {
     public int findMaxXor(TrieNode root, int num) {
         int sum = 0;
         TrieNode cur = root;
-        for (int i = 30; i >= 0; i--) {
+        for (int i = 31; i >= 0; i--) {
             int curBit = (num >> i) & 1;
             int targetBit = curBit ^ 1;
             if (cur.children[targetBit] != null) {

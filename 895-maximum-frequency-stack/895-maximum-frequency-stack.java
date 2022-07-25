@@ -22,7 +22,7 @@ class FreqStack {
         return res;
     }
 }
-
+//tc: O(log n) sc:O(n)
 /**
  * Your FreqStack object will be instantiated and called as such:
  * FreqStack obj = new FreqStack();

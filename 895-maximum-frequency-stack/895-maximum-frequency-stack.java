@@ -1,28 +1,29 @@
 class FreqStack {
-    Map<Integer, Integer> freq; //val, frequency
-    PriorityQueue<int[]> pq; //val, freq, sequenceID
-    int pushCount;
+    Map<Integer, Integer> valToFreq;   // <val, freq>
+    Map<Integer, Deque<Integer>> freqToVal; // <freq, values with the frequenct>
+    int maxFreq;
     
     public FreqStack() {
-        freq = new HashMap<>();
-        pq = new PriorityQueue<>((a, b) -> a[1] == b[1] ? b[2] - a[2] : b[1] - a[1]);
-        pushCount = 0;
+        valToFreq = new HashMap<>();
+        freqToVal = new HashMap<>();
+        maxFreq = 0;
     }
     
     public void push(int val) {
-        freq.put(val, freq.getOrDefault(val, 0) + 1);
-        pq.offer(new int[]{val, freq.get(val), ++pushCount});
+        valToFreq.put(val, valToFreq.getOrDefault(val, 0) + 1);
+        int curFreq = valToFreq.get(val);
+        maxFreq = Math.max(curFreq, maxFreq);
+        freqToVal.computeIfAbsent(curFreq, v-> new ArrayDeque<>()).push(val);
     }
     
     public int pop() {
-        //pop 
-        int res = pq.poll()[0];
-        //reduce frequency
-        freq.put(res, freq.get(res) - 1);
+        int res = freqToVal.get(maxFreq).pop();
+        valToFreq.put(res, valToFreq.get(res) - 1);
+        if (freqToVal.get(maxFreq).size() == 0) maxFreq--;//important corner case
         return res;
     }
 }
-//tc: O(log n) sc:O(n)
+
 /**
  * Your FreqStack object will be instantiated and called as such:
  * FreqStack obj = new FreqStack();

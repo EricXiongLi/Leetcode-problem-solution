@@ -39,9 +39,7 @@ class Solution {
         leftP.next = cur;
         
         return dummy.next;
-        
-        
-        
+        //tc: O(n) sc: O(1)
         
     }
 }

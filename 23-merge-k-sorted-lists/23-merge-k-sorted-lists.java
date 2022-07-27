@@ -22,8 +22,12 @@ class Solution {
             ListNode top = pq.poll();
             cur.next = top;
             cur = cur.next;
+            if (pq.size() == 0) break;
             if (top.next != null) pq.offer(top.next);
         }
         return dummy.next;
     }
 }
+
+//tc: O(nlogn)
+//sc: O(1)

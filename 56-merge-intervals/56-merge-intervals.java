@@ -12,6 +12,6 @@ class Solution {
             }
         }
         res.add(pre);
-        return res.toArray(new int[0][]);
+        return res.toArray(new int[res.size()][]);
     }
 }

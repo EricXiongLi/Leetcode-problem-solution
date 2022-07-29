@@ -4,8 +4,7 @@ class Solution {
         int end = Integer.MIN_VALUE;
         int remaining = 0;
         for (int[] cur : intervals) {
-            if (cur[1] <= end) continue;
-            else {
+            if (cur[1] > end) {
                 end = cur[1];
                 remaining++;
             }
@@ -13,3 +12,5 @@ class Solution {
         return remaining;
     }
 }
+
+//tc: O(nlogn) sc: O(logn)

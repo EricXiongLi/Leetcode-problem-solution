@@ -1,6 +1,6 @@
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-        Deque<TreeNode> q = new LinkedList<>();
+        Queue<TreeNode> q = new LinkedList<>();
         List<List<Integer>> res = new LinkedList<>();
         if (root == null) return res;
         q.offer(root);

@@ -1,10 +1,10 @@
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-        Deque<TreeNode> q = new LinkedList<>();
+        Queue<TreeNode> q = new LinkedList<>();
         List<List<Integer>> res = new LinkedList<>();
         if (root == null) return res;
         q.offer(root);
-        while (q.size() != 0) {
+        while (!q.isEmpty()) {
             int sz = q.size();
             List<Integer> curLevel = new LinkedList<>();
             for (int i = 0; i < sz; i++) {

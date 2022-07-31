@@ -1,7 +1,7 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> graph = new HashMap<>();
-        List<Integer> res = new LinkedList<>();
+        List<Integer> res = new LinkedList<Integer>();
         int[] indegree = new int[numCourses];
         for (int[] pre : prerequisites) {
             int end = pre[0], start = pre[1];
@@ -25,10 +25,7 @@ class Solution {
                 }
             }
         }
-        int[] ans = new int[res.size()];
-        for (int i = 0; i < res.size(); i++) {
-            ans[i] = res.get(i);
-        }
-        return count == numCourses ? ans : new int[0];
+        
+        return count == numCourses ? res.stream().mapToInt(Integer::intValue).toArray() : new int[0];
     }
 }

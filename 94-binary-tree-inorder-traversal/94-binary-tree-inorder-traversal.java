@@ -15,12 +15,13 @@
  */
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new LinkedList<>();
         Deque<TreeNode> stack = new LinkedList<>();
-        while (!stack.isEmpty() || root != null) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) return res;
+        while (root != null || !stack.isEmpty()) {
             while (root != null) {
                 stack.push(root);
-                root = root.left;
+            root = root.left;
             }
             TreeNode cur = stack.pop();
             res.add(cur.val);

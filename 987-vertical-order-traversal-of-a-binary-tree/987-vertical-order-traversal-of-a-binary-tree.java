@@ -42,3 +42,6 @@ class Solution {
         return res;
     }
 }
+
+//tc: O(n log n)
+//sc: O(n)

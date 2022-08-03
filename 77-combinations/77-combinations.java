@@ -6,21 +6,15 @@ class Solution {
         return res;
     }
     
-    private void dfs(List<List<Integer>> res, Deque<Integer> tmp, int n, int k, int start) {
+    public void dfs(List<List<Integer>> res, Deque<Integer> tmp, int n, int k, int start) {
         if (tmp.size() == k) {
             res.add(new ArrayList<>(tmp));
             return;
         }
-       
-            if (start <= n - (k - tmp.size())) {
-                dfs(res, tmp, n, k, start+ 1);
-                tmp.offer(start);
-                dfs(res, tmp, n, k, start + 1);
-                tmp.pollLast();
-            } else {
-                tmp.offer(start);
-                dfs(res, tmp, n, k, start + 1);
-                tmp.pollLast();
-            }
+        for (int i = start; i <= n; i++) {
+            tmp.offer(i);
+            dfs(res, tmp, n, k, i + 1);
+            tmp.pollLast();
+        }
     }
 }

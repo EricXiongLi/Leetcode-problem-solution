@@ -22,6 +22,7 @@ class Solution {
                 level.add(sb.toString());
             }
             res.add(level);
+            return;
         }
         for (int i = 0; i < n; i++) {
             if (!colUsed[i] && !diag1Used[i + row] && !diag2Used[n - 1 - i + row]) {

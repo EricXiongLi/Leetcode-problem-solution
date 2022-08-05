@@ -17,3 +17,5 @@ class Solution {
         return leftCount > rightCount ? leftMajor : rightMajor;
     }
 }
+
+//tc: O(nlogn) sc:O(log n)

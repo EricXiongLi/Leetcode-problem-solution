@@ -17,7 +17,7 @@ class Solution {
                     left++;
                 }
                 int count = map.keySet().size();
-                if (count == unique && count == validCount) res = Math.max(res, i - left + 1);
+                if (count == validCount) res = Math.max(res, i - left + 1);
             }
         }
         return res == Integer.MIN_VALUE ? 0 : res;

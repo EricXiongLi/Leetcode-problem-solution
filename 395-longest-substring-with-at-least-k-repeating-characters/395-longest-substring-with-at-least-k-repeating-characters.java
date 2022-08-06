@@ -23,3 +23,5 @@ class Solution {
         return res == Integer.MIN_VALUE ? 0 : res;
     }
 }
+
+//tc: O(26 * n)

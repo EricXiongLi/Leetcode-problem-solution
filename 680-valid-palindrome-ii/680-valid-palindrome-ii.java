@@ -1,12 +1,14 @@
 class Solution {
     public boolean validPalindrome(String s) {
-        int start = 0, end = s.length() - 1;
-        while (start < end && s.charAt(start) == s.charAt(end)) {
-            start++;
-            end--;
+        int left = 0, right = s.length() - 1;
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return isPalindrome(s, left, right - 1) || isPalindrome(s, left + 1, right);
+            }
+            left++;
+            right--;
         }
-        if (start >= end) return true;
-        return isPalindrome(s, start, end - 1) || isPalindrome(s, start + 1, end);
+        return true;
     }
     
     private boolean isPalindrome(String s, int start, int end) {
@@ -20,6 +22,3 @@ class Solution {
         return true;
     }
 }
-
-//tc:O(n)
-//sc:O(1)

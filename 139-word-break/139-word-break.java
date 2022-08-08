@@ -1,30 +1,26 @@
 class Solution {
-    Boolean[] memo;
     public boolean wordBreak(String s, List<String> wordDict) {
-        int len = s.length();
-        memo = new Boolean[len + 1];
-        return dfs(s, len, new HashSet<>(wordDict));
+        //dp[i] : weather s.substring(i, end) can be word break;
+        Boolean[] memo = new Boolean[s.length()];
+        return dp(s, 0, new HashSet<String>(wordDict), memo);
     }
-
-    private boolean dfs(String s, int n, Set<String> dict) {
-        if (n == 0) {
-            return true;
-        }
-        if (memo[n] != null) {
-            return memo[n];
-        }
-        memo[n] = false;
-        for (int i = 0; i < n; i++) {
-            boolean right = dict.contains(s.substring(i, n));
-            if (!right) {
-                continue;
-            }
-            boolean left = dfs(s, i, dict);
-            if (left) {
-                memo[n] = true;
-                break;
+    
+    private boolean dp(String s, int start, HashSet<String> wordDict, Boolean[] memo) {
+        if (start == s.length()) return true;
+        if (memo[start] != null) return memo[start];
+        memo[start] = false;
+        for (int i = s.length(); i >= start; i--) {
+            String sub = s.substring(start, i);
+            if (wordDict.contains(sub)) {
+                if (dp(s, i, wordDict, memo)) {
+                    memo[start] = true;
+                    return true;
+                }
             }
         }
-        return memo[n];
+        return memo[start];
     }
+    
+    
+    
 }

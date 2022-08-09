@@ -11,7 +11,7 @@ class Solution {
                 minD.pollLast();
             }
             minD.offer(nums[i]);
-            while (!minD.isEmpty() && !maxD.isEmpty() && maxD.peekFirst() - minD.peekFirst() > limit) {
+            while ( maxD.peekFirst() - minD.peekFirst() > limit) {
                 if (maxD.peek() == nums[left]) maxD.poll();
                 if (minD.peek() == nums[left]) minD.poll();
                 left++;

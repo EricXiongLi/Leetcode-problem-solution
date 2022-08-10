@@ -1,38 +1,48 @@
 class Solution {
-    public int minJumps(int[] arr) {
-        Map<Integer, List<Integer>> map = new HashMap<>(); //<val, index the val appears>
-        for (int i = 0; i < arr.length; i++) {
-            map.computeIfAbsent(arr[i], v -> new ArrayList<Integer>()).add(i);
+    public int minJumps(int[] nums) {
+        Queue<Integer> head = new LinkedList<>();
+        Queue<Integer> tail = new LinkedList<>();
+        Map<Integer, List<Integer>> map = new HashMap<>(); // <val, all the index with the val>
+        for (int i = 0; i < nums.length; i++) {
+            map.computeIfAbsent(nums[i], v -> new ArrayList<Integer>()).add(i);
         }
-        Queue<Integer> q = new ArrayDeque<>();
-        q.offer(0);
-        boolean[] visited = new boolean[arr.length];
+        head.offer(0);
+        tail.offer(nums.length - 1);
+        boolean[] visited = new boolean[nums.length];
         int step = 0;
-        while (!q.isEmpty()) {
-            int sz = q.size();
+        while (!head.isEmpty() && !tail.isEmpty()) {
+            if (head.size() > tail.size()) {
+                Queue<Integer> temp = head;
+                head = tail;
+                tail = temp;
+            }
+            int sz = head.size();
             for (int i = 0; i < sz; i++) {
-                int cur = q.poll();
-                if (cur == arr.length - 1) return step;
-                int lChild = cur - 1;
-                int rChild = cur + 1;
-                if (lChild >= 0 && !visited[lChild]) {
-                    q.offer(lChild);
-                    visited[lChild] = true;
+                int cur = head.poll();
+                int left = cur - 1;
+                int right = cur + 1;
+                if (tail.contains(left) || tail.contains(right)) {
+                    return step + 1;
                 }
-                if (rChild < arr.length && !visited[rChild]) {
-                    q.offer(rChild);
-                    visited[rChild] = true;
+                if (left >= 0 && !visited[left]) {
+                    head.offer(left);
+                    visited[left] = true;
                 }
-                for (int j : map.getOrDefault(arr[cur], new ArrayList<Integer>())) {
+                if (right < nums.length && !visited[right]) {
+                    head.offer(right);
+                    visited[right] = true;
+                }
+                for (int j : map.get(nums[cur])) {
+                    if (j != cur && tail.contains(j)) return step + 1;
                     if (j != cur && !visited[j]) {
+                        head.offer(j);
                         visited[j] = true;
-                        q.offer(j);
                     }
                 }
-                map.remove(arr[cur]);
+                map.get(nums[cur]).clear();
             }
             step++;
         }
-        return step;
+        return 0;
     }
 }

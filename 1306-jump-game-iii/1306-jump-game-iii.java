@@ -2,15 +2,22 @@ class Solution {
     
     public boolean canReach(int[] arr, int start) {
         boolean[] visited = new boolean[arr.length];
-        return dfs(arr, start, visited);
-    }
-    
-    private boolean dfs(int[] arr, int pos, boolean[] visited) {
-        if (pos < 0 || pos >= arr.length || visited[pos]) {
-            return false;
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        while (!q.isEmpty()) {
+            int cur = q.poll();
+            if (arr[cur] == 0) return true;
+            int lChild = cur - arr[cur];
+            if (lChild >= 0 && !visited[lChild]) {
+                visited[lChild] = true;
+                q.offer(lChild);
+            }
+            int rChild = cur + arr[cur];
+            if (rChild < arr.length && !visited[rChild]) {
+                visited[rChild] = true;
+                q.offer(rChild);
+            }
         }
-        if (arr[pos] == 0) return true;
-        visited[pos] = true;
-        return dfs(arr, pos + arr[pos], visited) || dfs(arr, pos - arr[pos], visited);
+        return false;
     }
 }

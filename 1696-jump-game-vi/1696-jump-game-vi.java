@@ -1,14 +1,18 @@
 class Solution {
     public int maxResult(int[] nums, int k) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[0] - a[0]);//[sumEndAtI, index]
-        pq.offer(new int[]{nums[0], 0});
+        Deque<int[]> dq = new ArrayDeque<>();
+        dq.offer(new int[]{nums[0], 0});
         int res = nums[0];
         for (int i = 1; i < nums.length; i++) {
-            while (!pq.isEmpty() && pq.peek()[1] < i - k) {
-                pq.poll();
+            while (!dq.isEmpty() && dq.peek()[1] < i - k) {
+                dq.poll();
             }
-            if (i == nums.length - 1) res = pq.peek()[0] + nums[i];
-            pq.offer(new int[]{pq.peek()[0] + nums[i], i});
+            int cur = dq.peek()[0] + nums[i];
+            if (i == nums.length - 1) res = cur;
+            while (!dq.isEmpty() && dq.peekLast()[0] <= cur) {
+                dq.pollLast();
+            }
+            dq.offer(new int[]{cur, i});
         }
         return res;
     }

@@ -3,20 +3,15 @@ class Solution {
         int sum = Arrays.stream(nums).sum();
         if (sum % 2 != 0) return false;
         sum /= 2;
-        boolean[][] dp = new boolean[nums.length + 1][sum + 1];
-        dp[0][0] = true;
+        boolean[] dp = new boolean[sum + 1];
+        dp[0] = true;
         for (int i = 0; i < nums.length; i++) {
-            dp[i][0] = true;
-        }
-        for (int i = 1; i <= nums.length; i++) {
-            for (int j = 1; j <= sum; j++) {
-                if (nums[i - 1] <= j) {
-                    dp[i][j] = dp[i - 1][j - nums[i - 1]] || dp[i - 1][j];
-                } else {
-                    dp[i][j] = dp[i - 1][j];
+            for (int j = sum; j >= 0; j--) {
+                if (j >= nums[i]) {
+                    dp[j] = dp[j - nums[i]] || dp[j];
                 }
             }
         }
-        return dp[nums.length][sum];
+        return dp[sum];
     }
 }

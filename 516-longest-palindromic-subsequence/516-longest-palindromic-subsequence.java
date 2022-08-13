@@ -1,23 +1,22 @@
 class Solution {
     public int longestPalindromeSubseq(String s) {
-        String t = new StringBuilder(s).reverse().toString();
-        return lcs(s, t);
-    }
-    
-    private int lcs(String s, String t) {
-        int l1 = s.length(), l2 = t.length();
-        //dp[i][j]: the lcs of s(0, i)  and t(0, j)
-        
-        int[][] dp = new int[l1 + 1][l2 + 1];
-        for (int i = 1; i <= l1; i++) {
-            for (int j = 1; j <= l2; j++) {
-                if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    dp[i][j] = dp[i - 1][j - 1] + 1;
+        //dp[i][j]: longest  palindrome among s[i : j]
+        //if (s.charAt(i) = s.charAt(j)) -> dp[i + 1][j - 1]
+        //else -> max(dp[i + 1][j], dp[i][j - 1])
+        int l = s.length();
+        int[][] dp = new int[l][l];
+        for (int i = 0; i < l; i++) {
+            dp[i][i] = 1;
+        }
+        for (int i = l - 2; i >= 0; i--) {
+            for (int j = i + 1; j < l; j++) {
+                if (s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
                 } else {
-                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                    dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
                 }
             }
         }
-        return dp[l1][l2];
+        return dp[0][l - 1];
     }
 }

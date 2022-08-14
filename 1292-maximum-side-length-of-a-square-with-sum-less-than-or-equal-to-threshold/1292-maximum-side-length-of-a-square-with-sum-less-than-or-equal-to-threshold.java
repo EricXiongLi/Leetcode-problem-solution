@@ -7,24 +7,22 @@ class Solution {
                 sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + mat[i - 1][j - 1];
             }
         }
-        int left = 1, right = Math.min(m, n);
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            boolean isValid = false;
-            for (int i = 1; i + mid - 1 <= m && isValid == false; i++) {
-                for (int j = 1; j + mid - 1 <= n; j++) {
-                    if (rangeSum(sum, i, j, mid) <= threshold) {
+        
+        boolean isValid = false;
+        int ans = 1;
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                for (int k = ans; i + k - 1 <= m && j + k - 1 <= n && k <= Math.min(m, n); k++) {
+                    if (rangeSum(sum, i, j, k) <= threshold) {
+                        ans = k + 1;
                         isValid = true;
-                        left = mid + 1;
+                        j--;
                         break;
                     }
                 }
             }
-            if (!isValid) {
-                right = mid - 1;
-            }
         }
-        return right;
+        return ans - 1;
     }
     
     private int rangeSum(int[][] dp, int i, int j, int mid) {

@@ -2,11 +2,9 @@ class Solution {
     public int splitArray(int[] nums, int m) {
         int sum = Arrays.stream(nums).sum();
         int left = 0, right = sum;
-        int res = 0;
         while (left <= right) {
             int mid = left + (right - left) / 2;
             if (canSplit(nums, m, mid)) {
-                res = mid;
                 right = mid - 1;
             } else {
                 left = mid + 1;

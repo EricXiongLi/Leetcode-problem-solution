@@ -3,23 +3,29 @@ class Solution {
         return quickSelect(nums, 0, nums.length - 1, k);
     }
     
-    public int quickSelect(int[] nums, int l, int r, int k) {
-        int p = l, pivot = nums[r];
-        for (int i = l; i < r; i++) {
-            if (nums[i] < pivot) {
-                swap(nums, i, p);
-                p++;
-            }
-        }
-        swap(nums, p, r);
-        if (nums.length - k == p) return nums[p];
-        else if (nums.length - k > p) return quickSelect(nums, p + 1, r, k);
-        else return quickSelect(nums, l, p - 1, k);
+    private int quickSelect(int[] nums, int left, int right, int k) {
+        int pivot = partition(nums, left, right);
+        if (pivot == nums.length - k) return nums[pivot];
+        if (pivot > nums.length - k) return quickSelect(nums, left, pivot - 1, k);
+        return quickSelect(nums, pivot + 1, right, k);
     }
     
-    public void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
+    private int partition(int[] nums, int left, int right) {
+        int pivot = nums[right], wall = left;
+        for (int i = left; i < right; i++) {
+            if (nums[i] <= pivot) {
+                swap(nums, i, wall);
+                wall++;
+            }
+        }
+        swap(nums, wall, right);
+        return wall;
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
         nums[i] = nums[j];
-        nums[j] = temp;
+        nums[j] = tmp;
+        
     }
 }

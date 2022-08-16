@@ -1,35 +1,27 @@
 class Solution {
     public int networkDelayTime(int[][] times, int n, int k) {
         Map<Integer, List<int[]>> graph = new HashMap<>();
-        for (int[] time : times) {
-            graph.computeIfAbsent(time[0], v -> new ArrayList<int[]>()).add(new int[]{time[1], time[2]});
+        for (int[] edge : times) {
+            graph.computeIfAbsent(edge[0], v -> new ArrayList<int[]>()).add(new int[]{edge[1], edge[2]});
         }
-        Map<Integer, Integer> dist = new HashMap<>();
-        boolean[] visited = new boolean[n + 1];
-        for (int i = 1; i <= n; i++) {
-            dist.put(i, Integer.MAX_VALUE);
-        }
-        dist.put(k, 0);
-        while (true) {
-            int curNode = -1, minDist = Integer.MAX_VALUE;
-            for (int i = 1; i <= n; i++) {
-                if (!visited[i] && dist.get(i) < minDist) {
-                    curNode = i;
-                    minDist = dist.get(i);
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]); //[distance, node]
+        pq.offer(new int[]{0, k});
+        int res = 0;
+        Map<Integer, Integer> distance = new HashMap<>(); //node, distance
+        while (!pq.isEmpty()) {
+            int[] cur = pq.poll();
+            int dist1 = cur[0], node1 = cur[1];
+            if (distance.containsKey(node1)) continue;
+            distance.put(node1, dist1);
+            res = Math.max(res, dist1);
+            for (int[] edge : graph.getOrDefault(node1, new ArrayList<int[]>())) {
+                int dist2 = edge[1], node2 = edge[0];
+                if (!distance.containsKey(node2)) {
+                    pq.offer(new int[]{dist2 + dist1, node2});
                 }
             }
-            if (curNode == -1) break;
-            visited[curNode] = true;
-            for (int[] nei : graph.getOrDefault(curNode, new ArrayList<int[]>())) {
-                dist.put(nei[0], Math.min(dist.get(nei[0]), dist.get(curNode) + nei[1]));
-            }
         }
-        int max = 0;
-        for (int distance : dist.values()) {
-            max = Math.max(max, distance);
-        }
-        return max == Integer.MAX_VALUE ? -1 : max;
+        if (distance.size() != n) return -1;
+        return res;
     }
-                                             
-                                             
 }

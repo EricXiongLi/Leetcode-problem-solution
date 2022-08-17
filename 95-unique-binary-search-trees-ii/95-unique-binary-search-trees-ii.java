@@ -29,14 +29,12 @@ class Solution {
             return res;
         }
         for (int i = start; i <= end; i++) {
-            TreeNode root = new TreeNode(i);
             for (TreeNode leftNode : dfs(start, i - 1)) {
-                root.left = leftNode;
                 for (TreeNode rightNode : dfs(i + 1, end)) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = leftNode;
                     root.right = rightNode;
                     res.add(root);
-                    root = new TreeNode(i);
-                    root.left = leftNode;
                 }
             }
         }

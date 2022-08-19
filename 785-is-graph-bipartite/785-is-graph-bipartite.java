@@ -21,6 +21,7 @@ class Solution {
                 if (!dfs(graph, nei, color[cur])) return false;
             } else {
                 if (color[nei] == color[cur]) return false;
+                
             }
         }
         return true;

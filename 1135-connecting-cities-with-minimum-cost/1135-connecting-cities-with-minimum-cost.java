@@ -1,27 +1,48 @@
 class Solution {
     public int minimumCost(int n, int[][] connections) {
-        Map<Integer, List<int[]>> graph = new HashMap<>();
-        for (int[] edge: connections) {
+        Arrays.sort(connections, (a, b) -> a[2] - b[2]);
+        DSU dsu = new DSU(n + 1);
+        int count = 1;
+        int totalCost = 0;
+        for (int[] edge : connections) {
             int start = edge[0], end = edge[1], cost = edge[2];
-            graph.computeIfAbsent(start, v -> new ArrayList<int[]>()).add(new int[]{end, cost});
-            graph.computeIfAbsent(end, v -> new ArrayList<int[]>()).add(new int[]{start, cost});
+            if (dsu.connected(start, end)) continue;
+            dsu.union(start, end);
+            totalCost += cost;
+            count++;
         }
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[2] - b[2]);
-        pq.offer(new int[]{1, 1, 0});
-        Set<Integer> visited = new HashSet<>();
-        int costs = 0;
-        while (!pq.isEmpty()) {
-            int[] cur = pq.poll();
-            int curStart = cur[0], curEnd = cur[1], curCost = cur[2];
-            if (visited.contains(curEnd)) continue;
-            costs += curCost;
-            visited.add(curEnd);
-            for (int[] nei : graph.getOrDefault(curEnd, new ArrayList<int[]>())) {
-                int neiEnd = nei[0], neiCost = nei[1];
-                    pq.offer(new int[]{curEnd, neiEnd, neiCost});
-                
-            }
-        }
-        return visited.size() == n ? costs : -1;
+        return count == n ? totalCost : -1;
+        
     }
+}
+
+class DSU {
+    int[] parent;
+    
+    public DSU(int n) {
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+    
+    public int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+    
+    public void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+        if (rootX != rootY) {
+            parent[rootX] = rootY;
+        }
+    }
+    
+    public boolean connected(int x, int y) {
+        return find(x) == find(y);
+    }
+    
 }

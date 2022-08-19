@@ -18,9 +18,8 @@ class Solution {
             visited.add(curEnd);
             for (int[] nei : graph.getOrDefault(curEnd, new ArrayList<int[]>())) {
                 int neiEnd = nei[0], neiCost = nei[1];
-                if (!visited.contains(neiEnd)) {
                     pq.offer(new int[]{curEnd, neiEnd, neiCost});
-                }
+                
             }
         }
         return visited.size() == n ? costs : -1;

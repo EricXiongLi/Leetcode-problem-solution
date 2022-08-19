@@ -7,9 +7,10 @@ class Solution {
         for (int i = 0; i < n; i++) {
             children.computeIfAbsent(parents[i], v -> new ArrayList<Integer>()).add(i);
         }
-        for (int i = 0; i < n; i++) {
-            getSum(children, i);
-        }
+        // for (int i = 0; i < n; i++) {
+        //     getSum(children, i);
+        // }
+        getSum(children, 0);
         int totalSum = Collections.max(Arrays.asList(rootSum));
         long res = 0;
         Map<Long, Integer> map = new HashMap<>();

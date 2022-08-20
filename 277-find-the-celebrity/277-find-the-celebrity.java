@@ -3,25 +3,22 @@
 
 public class Solution extends Relation {
     public int findCelebrity(int n) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        for (int i = 0; i < n; i++) {
-            stack.push(i);
-        }
-        while (stack.size() > 1) {
-            int a = stack.pop();
-            int b = stack.pop();
-            if (knows(a, b)) {
-                stack.push(b);
+        int left = 0, can = 0;
+        int p = 1;
+        while (p <= n - 1) {
+            can = p;
+            if (knows(left, can)) {
+                left = can;
             } else {
-                stack.push(a);
+                left = left;
             }
+            p++;
         }
-        int can = stack.pop();
         for (int i = 0; i < n; i++) {
-            if (i != can) {
-                if (!knows(i, can) || knows(can, i)) return -1;
+            if (i != left) {
+                if (knows(left, i) || !knows(i, left)) return -1;
             }
         }
-        return can;
+        return left;
     }
 }

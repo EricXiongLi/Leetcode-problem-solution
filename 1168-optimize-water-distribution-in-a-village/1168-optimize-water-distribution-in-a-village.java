@@ -1,58 +1,32 @@
 class Solution {
     public int minCostToSupplyWater(int n, int[] wells, int[][] pipes) {
-        List<int[]> edges = new ArrayList<int[]>(); //start, end, cost
-        for (int i = 1; i <= n; i++) {
-            edges.add(new int[]{0, i, wells[i - 1]});
-        }
-        for (int[] pipe: pipes) {
-            edges.add(pipe);
-        }
-        Collections.sort(edges, (a, b) -> Integer.compare(a[2], b[2]));
-        DSU dsu = new DSU(n + 1);
-        int totalCost = 0;
-        for (int[] edge : edges) {
-            int start = edge[0], end = edge[1], cost = edge[2];
-            if (dsu.connected(start, end)) continue;
-            dsu.union(start, end);
-            totalCost += cost;
-        }
-        return totalCost;
-    }
-}
-
-class DSU {
-    int[] parent;
-    int[] size;
-    
-    public DSU(int n) {
-        parent = new int[n];
-        size = new int[n];
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[1], b[1]));//end, cost
+        Map<Integer, List<int[]>> graph = new HashMap<>();//end, cost
         for (int i = 0; i < n; i++) {
-            parent[i] = i;
+            graph.computeIfAbsent(0, v -> new ArrayList<int[]>()).add(new int[]{i + 1, wells[i]});
+            graph.computeIfAbsent(i + 1, v -> new ArrayList<int[]>()).add(new int[]{0, wells[i]});
         }
-        Arrays.fill(size, 1);
-    }
-    
-    public int find(int x) {
-        if (parent[x] != x) {
-            parent[x] = find(parent[x]);
+        for (int[] pipe : pipes) {
+            int start = pipe[0], end = pipe[1], cost = pipe[2];
+            graph.computeIfAbsent(start, v -> new ArrayList<int[]>()).add(new int[]{end, cost});
+            graph.computeIfAbsent(end, v -> new ArrayList<int[]>()).add(new int[]{start, cost});
         }
-        return parent[x];
-    }
-    
-    public void union(int x, int y) {
-        int rootX = find(x), rootY = find(y);
-        if (rootX == rootY) return;
-        if (size[rootX] >= size[rootY]) {
-            parent[rootY] = rootX;
-            size[rootX] += size[rootY];
-        } else {
-            parent[rootX] = rootY;
-            size[rootY] += size[rootX];
+        Set<Integer> visited = new HashSet<>();
+        pq.offer(new int[]{0, 0});
+        int totalCost = 0;
+        while (!pq.isEmpty()) {
+            int[] cur = pq.poll();
+            int curEnd = cur[0], curCost = cur[1];
+            if (visited.contains(curEnd)) continue;
+            visited.add(curEnd);
+            totalCost += curCost;
+            for (int[] nei : graph.getOrDefault(curEnd, new ArrayList<int[]>())) {
+                int neiEnd = nei[0], neiCost = nei[1];
+                if (visited.contains(neiEnd)) continue;
+                pq.offer(new int[]{neiEnd, neiCost});
+            }
         }
-    }
-    
-    public boolean connected(int x, int y) {
-        return find(x) == find(y);
+        return visited.size() == n + 1 ? totalCost : -1;
+        
     }
 }

@@ -18,22 +18,29 @@ class Solution {
     int index;
     public TreeNode bstFromPreorder(int[] preorder) {
         this.preorder = preorder;
-        index = 0;
-        return dfs(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return dfs(0, preorder.length - 1);
     }
     
-    private TreeNode dfs(int lower, int upper) {
-        if (index == preorder.length) {
+    private TreeNode dfs(int start, int end) {
+        if (start > end || start >= preorder.length) {
             return null;
         }
-        int cur = preorder[index];
-        if (cur < lower || cur > upper) {
-            return null;
-        }
-        index++;
-        TreeNode root = new TreeNode(cur);
-        root.left = dfs(lower, cur);
-        root.right = dfs(cur, upper);
+        TreeNode root = new TreeNode(preorder[start]);
+        int index = binarySearch(preorder[start], start + 1, end);
+        root.left = dfs(start + 1, index - 1);
+        root.right = dfs(index, end);
         return root;
+    }
+    
+    private int binarySearch(int target, int left, int right) {
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (preorder[mid] > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
     }
 }

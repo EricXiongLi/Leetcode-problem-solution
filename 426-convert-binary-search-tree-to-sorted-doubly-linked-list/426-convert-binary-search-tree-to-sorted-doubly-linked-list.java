@@ -20,29 +20,38 @@ class Node {
 */
 
 class Solution {
-    Node prev;
-    Node head;
-    public Node treeToDoublyList(Node root) {
-        prev = null;
-        head = null;
-        if (root == null) return null;
-        inorderTraversal(root);
-        prev.right = head;
-        head.left = prev;
-        return head;
-    }
     
-    private void inorderTraversal(Node root) {
-        if (root == null) return;
-        inorderTraversal(root.left);
-        if (head == null) {
-            head = root;
+    public Node treeToDoublyList(Node root) {
+        Node head = null, prev = null;
+        if (root == null) return null;
+        Node p = root;
+        Deque<Node> stack = new ArrayDeque<>();
+        
+        while (p != null) {
+            stack.push(p);
+            p = p.left;
         }
-        if (prev != null) {
-            prev.right = root;
+        
+        while (!stack.isEmpty()) {
+            Node cur = stack.pop();
+            if (head == null) {
+                head = cur;
+            }
+            
+            if (prev != null) {
+                prev.right = cur;
+            }
+            
+            cur.left = prev;
+            prev = cur;
+            Node p2 = cur.right;
+            while (p2 != null) {
+                stack.push(p2);
+                p2 = p2.left;
+            }
         }
-        root.left = prev;
-        prev = root;
-        inorderTraversal(root.right);
+        head.left = prev;
+        prev.right = head;
+        return head;
     }
 }

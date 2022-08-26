@@ -15,19 +15,27 @@
  */
 class Solution {
     public boolean isValidBST(TreeNode root) {
-        return isValidBST(root, null, null);
-    }
-    
-    private boolean isValidBST(TreeNode root, Integer lower, Integer upper) {
-        if (lower != null && root.val <= lower) return false;
-        if (upper != null && root.val >= upper) return false;
-        boolean left = true, right = true;
-        if (root.left != null) {
-            left = isValidBST(root.left, lower, root.val);
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode cursor = root;
+        while (cursor != null) {
+            stack.push(cursor);
+            cursor = cursor.left;
         }
-        if (root.right != null) {
-            right = isValidBST(root.right, root.val, upper);
+        Integer prev = null;
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.pop();
+            if (prev != null && cur.val <= prev) {
+                return false;
+            }
+            prev = cur.val;
+            if (cur.right != null) {
+                cur = cur.right;
+                while (cur != null) {
+                    stack.push(cur);
+                    cur = cur.left;
+                }
+            }
         }
-        return left && right;
+        return true;
     }
 }

@@ -8,23 +8,28 @@
  * }
  */
 class Solution {
+    Map<TreeNode, TreeNode> parents = new HashMap<>();
+    
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) {
-            return null;
+        dfs(root, null);
+        Set<Integer> hs = new HashSet<>();
+        TreeNode cursor = p;
+        while (cursor != null) {
+            hs.add(cursor.val);
+            cursor = parents.get(cursor);
         }
-        if (p.val == root.val || q.val == root.val) {
-            return root;
+        TreeNode cursor2 = q;
+        while (!hs.contains(cursor2.val)) {
+            cursor2 = parents.get(cursor2);
         }
-        TreeNode left = lowestCommonAncestor(root.left, p, q);
-        TreeNode right = lowestCommonAncestor(root.right, p, q);
-        if (left != null && right != null) {
-            return root;
-        } else if (left == null && right != null) {
-            return right;
-        } else if (left != null && right == null) {
-            return left;
-        } else {
-            return null;
-        }
+        return cursor2;
+        
+    }
+    
+    private void dfs(TreeNode root, TreeNode parent) {
+        if (root == null) return;
+        parents.put(root, parent);
+        dfs(root.left, root);
+        dfs(root.right, root);
     }
 }

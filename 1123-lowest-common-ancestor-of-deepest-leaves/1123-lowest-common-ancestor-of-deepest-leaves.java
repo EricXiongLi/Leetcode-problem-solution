@@ -15,22 +15,21 @@
  */
 class Solution {
     public TreeNode lcaDeepestLeaves(TreeNode root) {
-        Pair res = getLCA(root, 0);
+        Pair res = maxDepth(root);
         return res.node;
     }
     
-    public Pair getLCA(TreeNode root, int d) {
-        if (root == null) {
-            return new Pair(null, d);
-        }
-        Pair left = getLCA(root.left, d + 1);
-        Pair right = getLCA(root.right, d + 1);
-        if (left.d == right.d) {
-            return new Pair(root, left.d);
-        } else {
-            return left.d > right.d ? new Pair(left.node, left.d) : new Pair(right.node, right.d);
-        }
+    private Pair maxDepth(TreeNode root) {
+    if (root == null) {
+        return new Pair(null, 0);
     }
+    Pair left = maxDepth(root.left);
+    Pair right = maxDepth(root.right);
+    if (left.d == right.d) {
+        return new Pair(root, left.d + 1);
+    }
+    return left.d > right.d ? new Pair(left.node, left.d + 1) : new Pair(right.node, right.d + 1);
+}
 }
 
 class Pair {
@@ -42,3 +41,9 @@ class Pair {
         this.d = d;
     }
 }
+
+
+
+
+
+

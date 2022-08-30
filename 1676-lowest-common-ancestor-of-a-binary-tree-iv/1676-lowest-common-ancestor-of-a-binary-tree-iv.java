@@ -8,31 +8,28 @@
  * }
  */
 class Solution {
+    Set<Integer> set;
+    TreeNode res;
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode[] nodes) {
-        Set<TreeNode> set = new HashSet<>();
-        for (TreeNode t : nodes) {
-            set.add(t);
+        res = null;
+        set = new HashSet<>();
+        for (TreeNode node : nodes) {
+            set.add(node.val);
         }
-        return dfs(root, set);
+        containsQuantity(root, nodes.length);
+        return res;
     }
     
-    private TreeNode dfs(TreeNode root, Set<TreeNode> set) {
+    private int containsQuantity(TreeNode root, int size) {
         if (root == null) {
-            return null;
+            return 0;
         }
-        if (set.contains(root)) {
-            return root;
+        int left = containsQuantity(root.left, size);
+        int right = containsQuantity(root.right, size);
+        int cur = left + right + (set.contains(root.val) ? 1 : 0);
+        if (cur == size && res == null) {
+            res = root;
         }
-        TreeNode left = dfs(root.left, set);
-        TreeNode right = dfs(root.right, set);
-        if (left == null && right == null) {
-            return null;
-        } else if (left != null && right != null) {
-            return root;
-        } else if (left == null) {
-            return right;
-        } else {
-            return left;
-        }
+        return cur;
     }
 }

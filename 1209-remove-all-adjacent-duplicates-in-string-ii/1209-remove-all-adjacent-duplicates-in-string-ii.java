@@ -5,7 +5,7 @@ class Solution {
         int n = s.length();
         for (int i = 0; i < n; i++) {
             char cur = s.charAt(i);
-            if (stack.isEmpty() || stack.peekFirst().c != cur) {
+            if (stack.isEmpty() || stack.peek().c != cur) {
                 stack.push(new Pair(cur, 1));
             } else {
                 int curIndex = stack.peekFirst().index + 1;

@@ -1,10 +1,12 @@
 class Solution {
     public int[][] highFive(int[][] items) {
         TreeMap<Integer, Queue<Integer>> map = new TreeMap<>();
-        for (int[] item: items) {
+        for (int[] item : items) {
+            //O(n)
             int id = item[0];
             int score = item[1];
-            map.computeIfAbsent(id, v -> new PriorityQueue<Integer>((a, b) -> a - b)).add(score);
+            map.computeIfAbsent(id, v -> new PriorityQueue<Integer>()).add(score);
+            //O(logN)
             if (map.get(id).size() > 5) {
                 map.get(id).poll();
             }
@@ -17,11 +19,13 @@ class Solution {
             for (int score : scores) {
                 scoreSum += score;
             }
-            int average = scoreSum / 5;
-            res.add(new int[]{id, average});
+            res.add(new int[]{id, scoreSum / 5});
         }
         
         int[][] ans = new int[res.size()][];
         return res.toArray(ans);
     }
 }
+
+//time complexity:O(n logN)
+//space : O(n);

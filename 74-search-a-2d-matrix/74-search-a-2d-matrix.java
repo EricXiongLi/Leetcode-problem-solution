@@ -19,8 +19,8 @@ class Solution {
         int row = r / n;
         int col = r % n;
         return matrix[row][col] == target;
-        
     }
 }
 
-//
+//O(log (MN))
+//sc: O(1)

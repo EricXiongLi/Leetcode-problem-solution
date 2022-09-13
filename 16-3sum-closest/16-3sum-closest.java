@@ -14,6 +14,7 @@ class Solution {
     }
     
     //1, 2, 3, 4
+    //O(n)
     private int twoSumClosest(int[] nums, int i, int target) {
         int l = i, r = nums.length - 1;
         int diff = Integer.MAX_VALUE;
@@ -39,3 +40,6 @@ class Solution {
         return res;
     }
 }
+
+//tc: O(n ^ 2)
+//sc: O(n logn)

@@ -21,4 +21,4 @@ class Solution {
 }
 
 //tc: O(n ^ 2)
-//sc: O(n)
+//sc: O(n ^ 2)

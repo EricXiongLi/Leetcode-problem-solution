@@ -1,5 +1,5 @@
 class Solution {
-    Set<String> set = new HashSet<>();
+    Set<Integer> set = new HashSet<>();
     public int longestRepeatingSubstring(String s) {
         // t, t, t, f, f
         int l = 0, r = s.length();
@@ -17,10 +17,12 @@ class Solution {
     public boolean check(String s, int n, int len) {
         for (int i = 0; i <= n - len; i++) {
             String s1 = s.substring(i, i + len);
-            if (set.contains(s1)) {
+            int hc1 = s1.hashCode();
+            if (set.contains(hc1)) {
                 return true;
             } else {
-                set.add(s1);
+                int hc = s1.hashCode();
+                set.add(hc);
             }
         }
         return false;

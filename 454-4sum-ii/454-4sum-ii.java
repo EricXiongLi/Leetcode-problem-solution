@@ -19,3 +19,6 @@ class Solution {
         return res;
     }
 }
+
+//tc: O(n ^ 2)
+//sc: O(n)

@@ -23,3 +23,5 @@ class Solution {
         return dp[m][n][0];
     } 
 }
+//tc: O(m * n * k)
+//sc: O(m * n * k)

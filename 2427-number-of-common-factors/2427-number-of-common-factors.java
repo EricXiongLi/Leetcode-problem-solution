@@ -15,3 +15,6 @@ class Solution {
         
     }
 }
+
+//tc: O(log(max(a, b)))
+//sc: O(1)

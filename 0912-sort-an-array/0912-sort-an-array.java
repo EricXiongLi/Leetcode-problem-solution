@@ -1,6 +1,8 @@
 class Solution {
+    int[] nums2;
     public int[] sortArray(int[] nums) {
         int n = nums.length;
+        nums2 = new int[n];
         mergesort(nums, 0, n - 1);
         return nums;
     }
@@ -11,8 +13,8 @@ class Solution {
         mergesort(nums, l, m);
         mergesort(nums, m + 1, r);
         int n = nums.length;
-        int[] nums2 = new int[r - l + 1];
-        int p1 = l, p2 = m + 1, p3 = 0;
+        
+        int p1 = l, p2 = m + 1, p3 = l;
         while (p1 <= m && p2 <= r) {
             if (nums[p1] < nums[p2]) {
                 nums2[p3] = nums[p1];
@@ -35,7 +37,10 @@ class Solution {
             }
         }
         for (int i = l; i <= r; i++) {
-            nums[i] = nums2[i - l];
+            nums[i] = nums2[i];
         }
     }
 }
+
+//tc: O(nlogn)
+//sc: O(n)

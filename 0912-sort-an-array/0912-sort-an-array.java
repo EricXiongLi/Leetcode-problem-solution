@@ -1,46 +1,35 @@
 class Solution {
-    int[] nums2;
     public int[] sortArray(int[] nums) {
-        int n = nums.length;
-        nums2 = new int[n];
-        mergesort(nums, 0, n - 1);
+        quickSort(nums, 0, nums.length - 1);
         return nums;
     }
     
-    public void mergesort(int[] nums, int l, int r) {
-        if (l == r) return;
-        int m = l + r >> 1;
-        mergesort(nums, l, m);
-        mergesort(nums, m + 1, r);
-        int n = nums.length;
-        
-        int p1 = l, p2 = m + 1, p3 = l;
-        while (p1 <= m && p2 <= r) {
-            if (nums[p1] < nums[p2]) {
-                nums2[p3] = nums[p1];
-                p1++;
-            } else {
-                nums2[p3] = nums[p2];
-                p2++;
-            }
-            p3++;
-        }
-        if (p1 > m) {
-            for (int i = p2; i <= r; i++) {
-                nums2[p3] = nums[i];
-                p3++;
-            }
-        } else {
-            for (int i = p1; i <= m; i++) {
-                nums2[p3] = nums[i];
-                p3++;
+    //1, 2, 3
+    
+    private void quickSort(int[] nums, int l, int r) {
+        if (l >= r) return;
+        int randomIndex = l + (int)(Math.random() * (r - l + 1));
+        int partitionIndex = partition(nums, l, r, randomIndex);
+        quickSort(nums, l, partitionIndex - 1);
+        quickSort(nums, partitionIndex + 1, r);
+    }
+    
+    private int partition(int[] nums, int l, int r, int pivot) {
+        int wall = l;
+        swap(nums, r, pivot);
+        for (int i = l; i < r; i++) {
+            if (nums[i] < nums[r]) {
+                swap(nums, i, wall);
+                wall++;
             }
         }
-        for (int i = l; i <= r; i++) {
-            nums[i] = nums2[i];
-        }
+        swap(nums, r, wall);
+        return wall;
+    }
+    
+    void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
-
-//tc: O(nlogn)
-//sc: O(n + logn)

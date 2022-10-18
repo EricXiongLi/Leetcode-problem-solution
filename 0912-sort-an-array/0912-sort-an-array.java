@@ -18,7 +18,7 @@ class Solution {
         int wall = l;
         swap(nums, r, pivot);
         for (int i = l; i < r; i++) {
-            if (nums[i] < nums[r]) {
+            if (nums[i] <= nums[r]) {
                 swap(nums, i, wall);
                 wall++;
             }
@@ -33,3 +33,6 @@ class Solution {
         nums[j] = temp;
     }
 }
+
+//tc: O(nlogn)
+//sc: O(logn)

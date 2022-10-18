@@ -43,4 +43,4 @@ class Solution {
 }
 
 //tc: O(nlogn)
-//sc: O(n)
+//sc: O(n + logn)

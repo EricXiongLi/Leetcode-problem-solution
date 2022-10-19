@@ -33,3 +33,6 @@ class Solution {
         nums[j] = temp;
     }
 }
+
+//tc: O(nlogn)
+//sc: O(logn)

@@ -16,3 +16,6 @@ class Solution {
         nums[j] = temp;
     }
 }
+
+//O(n)
+// O(1)

@@ -1,38 +1,35 @@
 class Solution {
     public int[] sortArray(int[] nums) {
-        quickSort(nums, 0, nums.length - 1);
+        int n = nums.length;
+        quicksort(nums, 0, n - 1);
         return nums;
     }
     
-    //1, 2, 3
-    
-    private void quickSort(int[] nums, int l, int r) {
+    private void quicksort(int[] nums, int l, int r) {
         if (l >= r) return;
         int randomIndex = l + (int)(Math.random() * (r - l + 1));
         int partitionIndex = partition(nums, l, r, randomIndex);
-        quickSort(nums, l, partitionIndex - 1);
-        quickSort(nums, partitionIndex + 1, r);
+        quicksort(nums, l, partitionIndex - 1);
+        quicksort(nums, partitionIndex + 1, r);
     }
     
-    private int partition(int[] nums, int l, int r, int pivot) {
+    private int partition(int[] nums, int l, int r, int i) {
+        int pivot = nums[i];
+        swap(nums, i, r);
         int wall = l;
-        swap(nums, r, pivot);
-        for (int i = l; i < r; i++) {
-            if (nums[i] < nums[r]) {
-                swap(nums, i, wall);
+        for (int j = l; j <= r - 1; j++) {
+            if (nums[j] < pivot) {
+                swap(nums, j, wall);
                 wall++;
             }
         }
-        swap(nums, r, wall);
+        swap(nums, wall, r);
         return wall;
     }
     
-    void swap(int[] nums, int i, int j) {
+    private void swap(int[] nums, int i, int j) {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
     }
 }
-
-//tc: O(nlogn)
-//sc: O(logn)

@@ -6,12 +6,7 @@ class Solution {
             dist[i] = (int) (Math.pow(points[i][0], 2) + Math.pow(points[i][1], 2));
         }
         quickSort(points, 0, n - 1, k - 1);
-        int[][] res = new int[k][2];
-        for (int i = 0; i < k; i++) {
-            res[i][0] = points[i][0];
-            res[i][1] = points[i][1];
-        }
-        return res;
+        return Arrays.copyOfRange(points, 0, k);
     }
     
     void quickSort(int[][] points, int l, int r, int k) {

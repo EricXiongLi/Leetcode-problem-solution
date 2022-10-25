@@ -9,12 +9,17 @@ class Solution {
     }
     
     int rob(int[] nums, int l, int r) {
-        int n = nums.length;
-        dp = new int[n + 2];
+        int prev1 = 0;
+        int prev2 = 0;
+        int cur = 0;
         for (int i = r; i >= l; i--) {
-            dp[i] = Math.max(dp[i + 1], nums[i] + dp[i + 2]);
+            cur = Math.max(prev1, nums[i] + prev2);
+            prev2 = prev1;
+            prev1 = cur;
         }
-        return dp[l];
+        return cur;
     }
 }
 
+//tc: O(n)
+//sc: O(n)

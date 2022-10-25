@@ -13,3 +13,7 @@ class Solution {
         return res;
     }
 }
+
+//难点在于如何处理k = 0
+//tc: O(n)
+//sc: O(n)

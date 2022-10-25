@@ -3,14 +3,16 @@ class Solution {
         //dp[i]: ways starting from i
         //dp[i] = dp[i + 2] + dp[i + 1];
         int MOD = (int)1e9 + 7;
-        int[] dp = new int[n + 2];
-        dp[n - 1] = 2;
-        dp[n] = 1;
-        dp[n + 1] = 1;
+    
+        int next1 = 1;
+        int next2 = 1;
+        int cur = 0;
         for (int i = n - 1; i >= 0; i--) {
-            dp[i] = dp[i + 1] % MOD + dp[i + 2] % MOD;
+            cur = next1 % MOD + next2 % MOD;
+            next2 = next1;
+            next1 = cur;
         }
-        return (int) ((1L * dp[0] * dp[0]) % MOD);
+        return (int) ((1L * cur * cur) % MOD);
     }
 }
 

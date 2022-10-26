@@ -1,40 +1,41 @@
 class Solution {
     public String minWindow(String s, String t) {
-        Map<Character, Integer> map = new HashMap<>(); // <char, times it appears>
-        Map<Character, Integer> tMap = new HashMap<>();
-        int targetCount = 0, count = 0, left = 0, minLen = Integer.MAX_VALUE, minStart = 0;
+        Map<Character, Integer> tmap = new HashMap<>();
+        Map<Character, Integer> smap = new HashMap<>();
+        int targetCount = t.length();
+        int minL = 0;
+        int minLen = Integer.MAX_VALUE;
         for (char c : t.toCharArray()) {
-            tMap.put(c, tMap.getOrDefault(c, 0) + 1);
-            targetCount++;
+            tmap.put(c, tmap.getOrDefault(c, 0) + 1);
         }
         
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (tMap.containsKey(c)) {
-                if (map.getOrDefault(c, 0) < tMap.get(c)) {
-                    map.put(c, map.getOrDefault(c, 0) + 1);
+        int l = 0;
+        int count = 0;
+        for (int r = 0; r < s.length(); r++) {
+            char c = s.charAt(r);
+            if (tmap.containsKey(c)) {
+                if (smap.getOrDefault(c, 0) < tmap.get(c)) {
                     count++;
-                } else {
-                    map.put(c, map.get(c) + 1);
                 }
+                smap.put(c, smap.getOrDefault(c, 0) + 1);
             }
-            while (count >= targetCount) {
-                if (i - left + 1 < minLen) {
-                    minLen = i - left + 1;
-                    minStart = left;
+            while (count == targetCount) {
+                if (r - l + 1 < minLen) {
+                    minLen = r - l + 1;
+                    minL = l;
                 }
-                char leftChar = s.charAt(left);
-                if (map.containsKey(leftChar)) {
-                    map.put(leftChar, map.get(leftChar) - 1);
-                    if (map.get(leftChar) < tMap.get(leftChar)) {
+                char leftC = s.charAt(l);
+                if (tmap.containsKey(leftC)) {
+                    smap.put(leftC, smap.get(leftC) - 1);
+                    if (smap.get(leftC) < tmap.get(leftC)) {
                         count--;
                     }
-                    if (map.get(leftChar) == 0) map.remove(leftChar);
+                    if (smap.get(leftC) == 0) smap.remove(leftC);
                 }
-                left++;
+                l++;
             }
         }
-        if (minLen == Integer.MAX_VALUE) return "";
-        return s.substring(minStart, minStart + minLen);
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(minL, minL + minLen);
+        
     }
 }

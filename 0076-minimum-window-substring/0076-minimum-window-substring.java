@@ -39,3 +39,6 @@ class Solution {
         
     }
 }
+
+//tc: O(m + n)
+//sc: O(m + n)

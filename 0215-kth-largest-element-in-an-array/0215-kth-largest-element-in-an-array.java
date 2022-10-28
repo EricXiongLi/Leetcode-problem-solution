@@ -19,15 +19,22 @@ class Solution {
     int partition(int[] nums, int l, int r, int pivotId) {
         int pivot = nums[pivotId];
         swap(nums, r, pivotId);
-        int wall = l;
-        for (int i = l; i <= r - 1; i++) {
-            if (nums[i] < pivot) {
-                swap(nums, i, wall);
-                wall++;
+        int left = l;
+        int right = r - 1;
+        while (true) {
+            while (left <= r - 1 && nums[left] <= pivot) {
+                left++;
             }
+            while (right >= l && nums[right] > pivot) {
+                right--;
+            }
+            if (left > right) {
+                swap(nums, left, r);
+                break;
+            }
+            swap(nums, left, right);
         }
-        swap(nums, wall, r);
-        return wall;
+        return left;
     }
     
     void swap(int[] nums, int l, int r) {

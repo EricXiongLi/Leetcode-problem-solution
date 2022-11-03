@@ -1,33 +1,32 @@
 class Solution {
-    public int longestPalindrome(String[] words) {
-        Map<String, Integer> map1 = new HashMap<>();
-        Map<String, Integer> map2 = new HashMap<>();
-        int count = 0;
-        for (String s: words) {
-            if (s.charAt(0) == s.charAt(1)) {
-                if (map2.containsKey(s)) {
-                    count += 4;
-                    map2.put(s, map2.get(s) - 1);
-                    if (map2.get(s) == 0) {
-                        map2.remove(s);
-                    }
-                } else {
-                    map2.put(s, map2.getOrDefault(s, 0) + 1);
-                }
-            } else {
-                String target = new StringBuilder(s).reverse().toString();
-                if (map1.containsKey(target)) {
-                    count += 4;
-                    map1.put(target, map1.get(target) - 1);
-                    if (map1.get(target) == 0) map1.remove(target);
-                } else {
-                    map1.put(s, map1.getOrDefault(s, 0) + 1);
-                }
+   public int longestPalindrome(String[] words) {
+    HashMap<String, Integer> m = new HashMap();
+    int unpaired = 0, ans = 0;
+    for (String w: words) {
+        if (!m.containsKey(w)) m.put(w, 0);
+        if (w.charAt(0) == w.charAt(1)) {
+            if (m.get(w) > 0) {
+                unpaired--;
+                m.put(w, m.get(w) - 1);
+                ans += 4;
+            }
+            else {
+                m.put(w, m.get(w) + 1);
+                unpaired++;
             }
         }
-        if (!map2.isEmpty()) {
-            count += 2;
+        else {
+            String rev = Character.toString(w.charAt(1)) + 
+                Character.toString(w.charAt(0));
+            if (m.containsKey(rev) && m.get(rev) > 0) {
+                ans += 4;
+                m.put(rev, m.get(rev) - 1);
+            }
+            else m.put(w, m.get(w) + 1);
         }
-        return count;
+
     }
+    if (unpaired > 0) ans += 2;
+    return ans;
+}
 }

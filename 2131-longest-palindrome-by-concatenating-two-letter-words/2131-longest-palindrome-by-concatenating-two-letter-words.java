@@ -1,32 +1,24 @@
 class Solution {
-   public int longestPalindrome(String[] words) {
-    HashMap<String, Integer> m = new HashMap();
-    int unpaired = 0, ans = 0;
-    for (String w: words) {
-        if (!m.containsKey(w)) m.put(w, 0);
-        if (w.charAt(0) == w.charAt(1)) {
-            if (m.get(w) > 0) {
-                unpaired--;
-                m.put(w, m.get(w) - 1);
-                ans += 4;
-            }
-            else {
-                m.put(w, m.get(w) + 1);
-                unpaired++;
+    public int longestPalindrome(String[] words) {
+        int[][] arr = new int[26][26];
+        int count = 0;
+        for (String s : words) {
+            char c1 = s.charAt(0), c2 = s.charAt(1);
+            if (arr[c2 - 'a'][c1 - 'a'] > 0) {
+                count += 4;
+                arr[c2 - 'a'][c1 - 'a']--;
+            } else {
+                arr[c1 - 'a'][c2 - 'a']++;
             }
         }
-        else {
-            String rev = Character.toString(w.charAt(1)) + 
-                Character.toString(w.charAt(0));
-            if (m.containsKey(rev) && m.get(rev) > 0) {
-                ans += 4;
-                m.put(rev, m.get(rev) - 1);
+        
+        for (int i = 0; i < 26; i++) {
+            if (arr[i][i] > 0) {
+                count += 2;
+                break;
             }
-            else m.put(w, m.get(w) + 1);
         }
-
+        
+        return count;
     }
-    if (unpaired > 0) ans += 2;
-    return ans;
-}
 }

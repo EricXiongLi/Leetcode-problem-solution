@@ -10,9 +10,7 @@ class Solution {
                 dp[i][j] = dp[i -1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + mat[i - 1][j - 1];
             }
         }
-        for (int[] arr : dp) {
-            System.out.println("dp : " + Arrays.toString(arr));
-        }
+        
         int[][] res = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {

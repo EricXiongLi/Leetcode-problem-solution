@@ -15,3 +15,6 @@ class Solution {
         return b;
     }
 }
+
+//tc: O(n)
+//sc: O(1)

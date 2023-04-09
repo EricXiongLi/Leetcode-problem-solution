@@ -1,6 +1,5 @@
 class Trie {
     TrieNode root;
-    
     public Trie() {
         root = new TrieNode();
     }
@@ -17,9 +16,7 @@ class Trie {
     public boolean search(String word) {
         TrieNode node = root;
         for (char c : word.toCharArray()) {
-            if (node.children[c - 'a'] == null) {
-                return false;
-            }
+            if (node.children[c - 'a'] == null) return false;
             node = node.children[c - 'a'];
         }
         return node.isWord;
@@ -35,15 +32,6 @@ class Trie {
     }
 }
 
-class TrieNode {
-    TrieNode[] children;
-    boolean isWord;
-    
-    public TrieNode() {
-        children = new TrieNode[26];
-    }
-}
-
 /**
  * Your Trie object will be instantiated and called as such:
  * Trie obj = new Trie();
@@ -51,3 +39,11 @@ class TrieNode {
  * boolean param_2 = obj.search(word);
  * boolean param_3 = obj.startsWith(prefix);
  */
+
+class TrieNode {
+    TrieNode[] children;
+    boolean isWord;
+    public TrieNode() {
+        children = new TrieNode[26];
+    }
+}

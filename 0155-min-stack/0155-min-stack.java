@@ -1,31 +1,38 @@
 class MinStack {
-    Deque<Integer> stack1, stack2;
-
+    Deque<Integer> dq1;
+    Deque<Integer> dq2;
+    
     public MinStack() {
-        stack1 = new ArrayDeque<>();
-        stack2 = new ArrayDeque<>();
+        dq1 = new ArrayDeque<>();
+        dq2 = new ArrayDeque<>();
     }
     
     public void push(int val) {
-        stack1.push(val);
-        if (stack2.isEmpty() || stack2.peek() >= val) {
-            stack2.push(val);
+        dq1.push(val);
+        if (dq2.isEmpty()) {
+            dq2.push(val);
+        } else {
+            if (val <= dq2.peek()) {
+                dq2.push(val);
+            }
         }
+        
     }
     
     public void pop() {
-        int top = stack1.pop();
-        if (!stack2.isEmpty() && stack2.peek() == top) {
-            stack2.pop();
+        int val = dq1.pop();
+        if (val == dq2.peek()) {
+            dq2.pop();
         }
+        
     }
     
     public int top() {
-        return stack1.peek();
+        return dq1.peek();
     }
     
     public int getMin() {
-        return stack2.peek();
+        return dq2.peek();
     }
 }
 

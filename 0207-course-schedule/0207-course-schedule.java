@@ -1,32 +1,29 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
         int[] indegree = new int[numCourses];
-        int count = 0;
-        Map<Integer, List<Integer>> map = new HashMap<>();
         for (int[] pre : prerequisites) {
-            int end = pre[0], start = pre[1];
-            map.computeIfAbsent(start, v -> new ArrayList<Integer>()).add(end);
+            int start = pre[1], end = pre[0];
             indegree[end]++;
+            graph.computeIfAbsent(start, v -> new ArrayList<>()).add(end);
         }
-        Deque<Integer> dq = new ArrayDeque<>();
-        for (int i = 0; i < numCourses; i++) {
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < indegree.length; i++) {
             if (indegree[i] == 0) {
-                dq.offer(i);
+                q.offer(i);
             }
         }
-        
-        while (!dq.isEmpty()) {
-            int cur = dq.poll();
+        int count = 0;
+        while (!q.isEmpty()) {
+            int cur = q.poll();
             count++;
-            for (int nei : map.getOrDefault(cur, new ArrayList<Integer>())) {
+            for (int nei : graph.getOrDefault(cur, new ArrayList<>())) {
                 indegree[nei]--;
                 if (indegree[nei] == 0) {
-                    dq.offer(nei);
+                    q.offer(nei);
                 }
             }
         }
         return count == numCourses;
-        
-        
     }
 }

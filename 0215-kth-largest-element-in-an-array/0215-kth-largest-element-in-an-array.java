@@ -1,45 +1,34 @@
 class Solution {
-    
     public int findKthLargest(int[] nums, int k) {
+        // 1, 2, 3
+//         3 => 
         int n = nums.length;
-        return quicksort(nums, 0, n - 1, n - k + 1);
+        k = n - k;
+        return quickSelect(nums, k, 0, n - 1);
     }
     
-    int quicksort(int[] nums, int l, int r, int k) {
-        int randomIndex = l + (int)(Math.random() * (r - l + 1));
-        int pivot = partition(nums, l, r, randomIndex);
-        if (pivot == k - 1) return nums[pivot];
-        if (k - 1 > pivot) {
-            return quicksort(nums, pivot + 1, r, k);
+    public int quickSelect(int[] nums, int k, int l, int r) {
+        int pivot = nums[r], p = l;
+        // 1, 2, 5, 4, 3 => smaller..., 3, greatrer..
+        for (int i = l; i < r; i++) {
+            if (nums[i] <= pivot) {
+                swap(nums, i, p);
+                p++;
+            }
+        }
+        swap(nums, r, p);
+        if (k < p) {
+            return quickSelect(nums, k, l, p - 1);
+        } else if (k > p) {
+            return quickSelect(nums, k, p + 1, r);
         } else {
-            return quicksort(nums, l, pivot - 1, k);
+            return nums[p];
         }
     }
     
-    int partition(int[] nums, int l, int r, int pivotId) {
-        int pivot = nums[pivotId];
-        swap(nums, r, pivotId);
-        int left = l;
-        int right = r - 1;
-        while (true) {
-            while (left <= r - 1 && nums[left] <= pivot) {
-                left++;
-            }
-            while (right >= l && nums[right] > pivot) {
-                right--;
-            }
-            if (left > right) {
-                swap(nums, left, r);
-                break;
-            }
-            swap(nums, left, right);
-        }
-        return left;
+    public void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
-    
-    void swap(int[] nums, int l, int r) {
-        int temp = nums[l];
-        nums[l] = nums[r];
-        nums[r] = temp;
-    }
-}
+} 

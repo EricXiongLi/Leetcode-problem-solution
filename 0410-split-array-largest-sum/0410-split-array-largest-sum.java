@@ -8,7 +8,7 @@ class Solution {
 //         f, f, f, t, t, t, t, t, t, t,
         //       r lm
         int sum = Arrays.stream(nums).sum();
-        int left = Arrays.stream(nums).max().getAsInt();
+        int left = 0;
         int  right = sum;
         while (left <= right) {
             int mid = left + (right - left) / 2;

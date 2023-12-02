@@ -8,8 +8,9 @@
 
 class Solution {
     //0, 1, 2
-    //l, m   r
-//    l  r   l
+    //l, m    r
+//          l. r
+//             l
     public int search(ArrayReader reader, int target) {
         //[0, 1, 2, 3, 4, target, 100, 101, 102, 2^]
         int left = 0, right = 10000;
@@ -23,7 +24,7 @@ class Solution {
                 left = mid + 1;
             }
         }
-        if (left < 10000 && reader.get(left) == target) return left;
+        if (left != 10000 && reader.get(left) == target) return left;
         return -1;
     }
 }

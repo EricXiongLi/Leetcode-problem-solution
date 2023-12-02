@@ -1,6 +1,6 @@
 class Solution {
     public int search(int[] nums, int target) {
-        int left = 0, right = nums.length - 1;
+        int left = 0, right = nums.length;
         while (left < right) {
             int mid = left + (right - left) / 2;
             if (nums[mid] == target) {
@@ -11,6 +11,12 @@ class Solution {
                 right = mid;
             }
         }
-        return nums[left] == target ? left : -1;
+        return -1;
+        
+        //1, 2, 
+        //l.     r
+        //l. m.  r
+        //l  r
+        //
     }
 }

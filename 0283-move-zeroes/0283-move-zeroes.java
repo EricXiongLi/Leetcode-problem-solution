@@ -15,3 +15,6 @@ class Solution {
         nums[j] = tmp;
     }
 }
+
+//tc: O(n)
+//sc: O(1)

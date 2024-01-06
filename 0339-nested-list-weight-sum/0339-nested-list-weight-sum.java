@@ -46,3 +46,6 @@ class Solution {
         return res;
     }
 }
+
+//tc: O(n)
+//sc: O(n)

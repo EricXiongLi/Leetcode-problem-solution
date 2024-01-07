@@ -34,3 +34,6 @@ class Solution {
     }
 
 }
+
+//tc: O (4 ^ N * N)
+//sc: O(n)

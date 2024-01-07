@@ -28,24 +28,28 @@
  */
 class Solution {
     public int depthSum(List<NestedInteger> nestedList) {
+        Queue<NestedInteger> q = new LinkedList<>();
+        int depth = 1;
         int res = 0;
-        for (NestedInteger child : nestedList) {
-            res += dfs(1, child);
+        for (NestedInteger nestedInteger : nestedList) {
+            q.offer(nestedInteger);
         }
-        return res;
-    }
-    
-    public int dfs(int depth, NestedInteger nestedInteger) {
-        if (nestedInteger.isInteger()) {
-            return depth * nestedInteger.getInteger();
-        }
-        int res = 0;
-        for (NestedInteger child : nestedInteger.getList()) {
-            res += dfs(depth + 1, child);
+        
+        while (!q.isEmpty()) {
+            int sz = q.size();
+            
+            for (int i = 0; i < sz; i++) {
+                NestedInteger cur = q.poll();
+                if (cur.isInteger()) {
+                    res += depth * cur.getInteger();
+                } else {
+                    for (NestedInteger child : cur.getList()) {
+                        q.offer(child);
+                    }
+                }
+            }
+            depth++;
         }
         return res;
     }
 }
-
-//tc: O(n)
-//sc: O(n)

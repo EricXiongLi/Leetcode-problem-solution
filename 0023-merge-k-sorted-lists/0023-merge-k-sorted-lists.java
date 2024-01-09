@@ -44,3 +44,5 @@ class Solution {
         }
     }
 }
+
+//tc: O(nlog(n))

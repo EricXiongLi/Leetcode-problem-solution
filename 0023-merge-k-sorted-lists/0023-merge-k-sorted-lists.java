@@ -10,26 +10,37 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
-        
-        for (ListNode node : lists) {
-            if (node != null) {
-                pq.offer(node);
-            }
+        if (lists.length == 0) {
+            return null;
         }
-        
-        ListNode dummy = new ListNode(-1);
-        ListNode res = dummy;
-        
-        while (!pq.isEmpty()) {
-            ListNode cur = pq.poll();
-            dummy.next = cur;
-            if (cur.next != null) {
-                pq.offer(cur.next);
-            }
-            dummy.next = cur;
-            dummy = dummy.next;
+        return partition(lists, 0, lists.length - 1);
+    }
+    
+    public ListNode partition(ListNode[] lists, int start, int end) {
+        if (start == end) {
+            return lists[start];
         }
-        return res.next;
+        int mid = start + (end - start) / 2;
+        ListNode sub1 = partition(lists, start, mid);
+        ListNode sub2 = partition(lists, mid + 1, end);
+        return mergeTwoList(sub1, sub2);
+    }
+    
+    public ListNode mergeTwoList(ListNode node1, ListNode node2) {
+        if (node1 == null) {
+            return node2;
+        }
+        if (node2 == null) {
+            return node1;
+        }
+        if (node1.val < node2.val) {
+            ListNode sub = mergeTwoList(node1.next, node2);
+            node1.next = sub;
+            return node1;
+        } else {
+            ListNode sub = mergeTwoList(node2.next, node1);
+            node2.next = sub;
+            return node2;
+        }
     }
 }

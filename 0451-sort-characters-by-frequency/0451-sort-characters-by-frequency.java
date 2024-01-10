@@ -33,3 +33,6 @@ class Solution {
         return sb.toString();
     }
 }
+
+//tc: O(n)
+//sc: O(n)

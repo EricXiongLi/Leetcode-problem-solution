@@ -1,44 +1,44 @@
 class Solution {
     public int[][] kClosest(int[][] points, int k) {
         int n = points.length;
-        int[] dist = new int[n];
-        for (int i = 0; i < n; i++) {
-            dist[i] = (int) (Math.pow(points[i][0], 2) + Math.pow(points[i][1], 2));
-        }
-        quickSort(points, 0, n - 1, k - 1);
+        quickSort(points, k - 1, 0, n - 1);
         return Arrays.copyOfRange(points, 0, k);
     }
     
-    void quickSort(int[][] points, int l, int r, int k) {
-        int partitionIndex = partition(points, l, r);
-        if (partitionIndex == k) return;
-        else if (partitionIndex > k) {
-            quickSort(points, l, partitionIndex - 1, k);
+    public void quickSort(int[][] points, int k, int start, int end) {
+        int partitionIndex = partition(points, k, start, end);
+        if (partitionIndex == k) {
+            return;
+        } else if (partitionIndex > k) {
+            quickSort(points, k, start, partitionIndex - 1);
         } else {
-            quickSort(points, partitionIndex + 1, r, k);
-        }
+            quickSort(points, k, partitionIndex + 1, end);
+        } 
     }
     
-    int partition(int[][] points, int l, int r) {
-        int pivot = dist(points, r);
-        int wall = l;
-        for (int i = l; i < r; i++) {
-            if (dist(points, i) < pivot) {
-                swap(points, i, wall);
+    public int partition(int[][] points, int k, int start, int end) {
+        int wall = start;
+        int pivot = start + (int) (Math.random() * (end - start));
+        swap(points, pivot, end);
+        for (int i = start; i < end; i++) {
+            if (dist(points[i]) < dist(points[end])) {
+                swap(points, wall, i);
                 wall++;
             }
         }
-        swap(points, wall, r);
+        swap(points, wall, end);
         return wall;
     }
     
-    int dist(int[][] points, int i) {
-        return (int)(Math.pow(points[i][0], 2) + Math.pow(points[i][1], 2));
+    public double dist(int[] point) {
+        double x = point[0], y = point[1];
+
+        return x * x + y * y;
     }
     
-    void swap(int[][] points, int i, int j) {
-        int[] temp = points[i];
-        points[i] = points[j];
-        points[j] = temp;
+    public void swap(int[][] points, int x, int y) {
+        int[] tmp = points[x];
+        points[x] = points[y];
+        points[y] = tmp;
     }
 }

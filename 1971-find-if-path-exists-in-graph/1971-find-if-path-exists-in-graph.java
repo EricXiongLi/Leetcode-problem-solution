@@ -9,21 +9,27 @@ class Solution {
             map.computeIfAbsent(start, v -> new ArrayList<>()).add(end);
             map.computeIfAbsent(end, v -> new ArrayList<>()).add(start);
         }
-        Set<Integer> set = new HashSet<>();
+        Set<Integer> visited = new HashSet<>();
         
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(source);
-        set.add(source);
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            for (int nei : map.get(cur)) {
-                if (nei == destination) {
+        for (int nei : map.getOrDefault(source, new ArrayList<>())) {
+            visited.add(nei);
+            if (dfs(nei, map, visited, destination)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean dfs(int source, Map<Integer, List<Integer>> map, Set<Integer> visited, int destination) {
+        if (source == destination) {
+                return true;
+        }
+        for (int nei : map.getOrDefault(source, new ArrayList<>())) {
+            if (!visited.contains(nei)) {
+                visited.add(nei);
+                if (dfs(nei, map, visited, destination)) {
                     return true;
                 }
-                if (!set.contains(nei)) {
-                    q.offer(nei);
-                }
-                set.add(nei);
             }
         }
         return false;

@@ -1,30 +1,36 @@
 class Solution {
-    public int[] findOrder(int numCourses, int[][] prerequisites) {
-        int[] indegree = new int[numCourses];
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        for (int[] pre : prerequisites) {
-            int start = pre[1], end = pre[0];
+    public int[] findOrder(int numCourses, int[][] pre) {
+        int n = numCourses;
+        int[] indegree = new int[n];
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        
+        for (int i = 0; i < pre.length; i++) {
+            int start = pre[i][1], end = pre[i][0];
             indegree[end]++;
-            graph.computeIfAbsent(start, v -> new ArrayList<>()).add(end);
+            map.computeIfAbsent(start, v-> new ArrayList<>()).add(end);
         }
-        List<Integer> res = new LinkedList<>();
+        
         Queue<Integer> q = new LinkedList<>();
-        for (int i = 0; i < numCourses; i++) {
+        for (int i = 0; i < n; i++) {
             if (indegree[i] == 0) {
                 q.offer(i);
             }
         }
+        List<Integer> res = new ArrayList<>();
         
         while (!q.isEmpty()) {
             int cur = q.poll();
             res.add(cur);
-            for (int nei : graph.getOrDefault(cur, new ArrayList<>())) {
+            for (int nei : map.getOrDefault(cur, new ArrayList<>())) {
                 indegree[nei]--;
                 if (indegree[nei] == 0) {
                     q.offer(nei);
                 }
             }
         }
-        return res.size() == numCourses ? res.stream().mapToInt(i -> i).toArray() : new int[0];
+        if (res.size() != n) {
+            return new int[0];
+        }
+        return res.stream().mapToInt(i -> i).toArray();
     }
 }

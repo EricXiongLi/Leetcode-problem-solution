@@ -38,3 +38,6 @@ class Solution {
         return res;
     }
 }
+
+//tc: O(h)
+//sc: O(1);

@@ -10,12 +10,19 @@ class Node {
 
 class Solution {
     public Node lowestCommonAncestor(Node p, Node q) {
-        Node pointerA = p;
-        Node pointerB = q;
-        while (pointerA != pointerB) {
-            pointerA = pointerA == null ? q : pointerA.parent;
-            pointerB = pointerB == null ? p : pointerB.parent;
+        if (p.parent == null) {
+            return p;
         }
-        return pointerA;
+        
+        if (q.parent == null) {
+            return q;
+        }
+        Node p1 = p, q1 = q;
+        while (p1 != q1) {
+            p1 = p1.parent == null ? q : p1.parent;
+            q1 = q1.parent == null ? p : q1.parent;
+        }
+        
+        return p1;
     }
 }

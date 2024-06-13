@@ -31,6 +31,9 @@ class TicTacToe {
     }
 }
 
+//tc: O(1)
+//sc: O(n)
+
 /**
  * Your TicTacToe object will be instantiated and called as such:
  * TicTacToe obj = new TicTacToe(n);

@@ -18,3 +18,6 @@ class Solution {
         return left + right;
     }
 }
+
+//tc: O(n)
+//sc: O(1);

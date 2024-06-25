@@ -14,31 +14,43 @@ class Node {
 */
 
 class Solution {
-    Map<Node, Node> visited = new HashMap<>();
     public Node copyRandomList(Node head) {
-        if (head == null) {
-            return null;
-        }
-        Node newNode = getClonedNode(head);
-        Node oldNode = head;
-        while (newNode != null) {
-            newNode.next = this.getClonedNode(oldNode.next);
-            newNode.random = this.getClonedNode(oldNode.random);
-            oldNode = oldNode.next;
-            newNode = newNode.next;
+        //1st round: insert duplicate node and assign "next" field and value
+        Node p = head, copy;
+        while (p != null) {
+            copy = new Node(p.val, null, null);
+            copy.next = p.next;
+            p.next = copy;
+            p = copy.next;
         }
         
-        return getClonedNode(head);
-    }
-    
-    public Node getClonedNode(Node node) {
-        if (node == null) {
-            return null;
+        //2nd round: assign "random" field
+        p = head;
+        Node pRandom, copyRandom;
+        while (p != null) {
+            copy = p.next;
+            pRandom = p.random;
+            if (pRandom != null) {
+                copy.random = pRandom.next;
+            }
+            p = p.next.next;
         }
-        visited.putIfAbsent(node, new Node(node.val, null, null));
-        return visited.get(node);
+        
+        //3rd round: revert to initial status and extract copy list
+        Node dummyHead = new Node(0, null, null), copyP = dummyHead;
+        p = head;
+        while (p != null) {
+            Node nextNode = p.next.next;
+            Node pCopy = p.next;
+            copyP.next = pCopy;
+            copyP = pCopy;
+            p.next = nextNode;
+            p = p.next;
+        }
+        
+        return dummyHead.next;
     }
 }
 
-//tc: O(n)
-//sc: O(n)
+// tc: O(n)
+// sc: O(1)

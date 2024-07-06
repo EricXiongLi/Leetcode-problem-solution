@@ -1,39 +1,39 @@
-class Solution {
-    //d,e,e,e,d,b,b,c,c,c,b,d,a,a. k = 3
+class Solution {    
     public String removeDuplicates(String s, int k) {
         Deque<Pair> stack = new ArrayDeque<>();
-        int n = s.length();
-        for (int i = 0; i < n; i++) {
-            char cur = s.charAt(i);
-            if (stack.isEmpty() || stack.peek().c != cur) {
-                stack.push(new Pair(cur, 1));
+        
+        for (char c : s.toCharArray()) {
+            if (stack.isEmpty() || stack.peek().ch != c) {
+                stack.push(new Pair(c, 1));
             } else {
-                int curIndex = stack.peekFirst().index + 1;
-                stack.push(new Pair(cur, curIndex));
-                if (curIndex == k) {
-                    for (int j = 0; j < k; j++) {
-                        stack.pop();
-                    }
-                }
+                stack.peek().count++;
+            }
+            if (stack.peek().count == k) {
+                stack.pop();
             }
         }
         
-        StringBuilder res = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         while (!stack.isEmpty()) {
-            res.append(stack.pollLast().c);
+            Pair pair = stack.pop();
+            for (int i = 0; i < pair.count; i++) {
+                sb.append(pair.ch);
+            }
         }
-        return res.toString();
+        return sb.reverse().toString();
+        
     }
-    
-    
 }
 
 class Pair {
-    char c;
-    int index;
-    
-    public Pair(char c, int index) {
-        this.c = c;
-        this.index = index;
-    }
+        char ch;
+        int count;
+        
+        public Pair(char ch, int count) {
+            this.ch = ch;
+            this.count = count;
+        }
 }
+
+//tc: O(n)
+//sc: O(n)

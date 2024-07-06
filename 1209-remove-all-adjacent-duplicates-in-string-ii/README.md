@@ -5,13 +5,13 @@
 <p>Return <em>the final string after all such duplicate removals have been made</em>. It is guaranteed that the answer is <strong>unique</strong>.</p>
 
 <p>&nbsp;</p>
-<p><strong>Example 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre><strong>Input:</strong> s = "abcd", k = 2
 <strong>Output:</strong> "abcd"
 <strong>Explanation: </strong>There's nothing to delete.</pre>
 
-<p><strong>Example 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre><strong>Input:</strong> s = "deeedbbcccbdaa", k = 3
 <strong>Output:</strong> "aa"
@@ -20,7 +20,7 @@
 Then delete "bbb", get "dddaa"
 Finally delete "ddd", get "aa"</pre>
 
-<p><strong>Example 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre><strong>Input:</strong> s = "pbbcggttciiippooaais", k = 2
 <strong>Output:</strong> "ps"

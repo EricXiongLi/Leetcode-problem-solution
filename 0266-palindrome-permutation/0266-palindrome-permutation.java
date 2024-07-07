@@ -13,3 +13,6 @@ class Solution {
         return set.size() <= 1;
     }
 }
+
+//tc: O(N)
+//sc: O(1)

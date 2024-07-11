@@ -19,6 +19,9 @@ class TopVotedCandidate {
     public int q(int t) {
         return map.floorEntry(t).getValue();
     }
+    
+    //tc: O(N logN)
+    //sc: O(N)
 }
 
 /**

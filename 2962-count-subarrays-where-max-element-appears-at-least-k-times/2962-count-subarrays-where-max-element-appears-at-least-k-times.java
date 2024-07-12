@@ -9,7 +9,7 @@ class Solution {
         long res = 0;
         for (int end = 0; end < n; end++) {
             map.put(nums[end], map.getOrDefault(nums[end], 0) + 1);
-            if (map.getOrDefault(maxNum, 0) >= k) {
+            if (nums[end] == maxNum && map.get(maxNum) >= k) {
                 // the num of appropriate array with start as its left border
                 res += (n - end);
             }

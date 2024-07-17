@@ -33,3 +33,6 @@ class Solution {
         return count;
     }
 }
+
+//tc: O(n)
+//sc: O(n)

@@ -38,3 +38,6 @@ class Solution {
         return copy;
     }
 }
+
+//tc: O(n)
+//sc: O(n)

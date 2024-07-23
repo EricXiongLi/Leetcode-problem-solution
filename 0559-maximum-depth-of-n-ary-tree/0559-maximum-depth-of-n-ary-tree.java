@@ -40,3 +40,6 @@ class Solution {
         return level;
     }
 }
+
+//tc: O(n)
+//sc: O(n)

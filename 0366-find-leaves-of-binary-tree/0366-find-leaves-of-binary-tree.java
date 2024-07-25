@@ -36,3 +36,6 @@ class Solution {
         return curHeight;
     }
 }
+
+//tc: O(n)
+//sc: O(n)

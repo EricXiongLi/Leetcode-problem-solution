@@ -41,4 +41,4 @@ class Solution {
 }
 
 //tc: O(maxNum * n)
-//sc: O(maxNum * n)
+//sc: O(n)

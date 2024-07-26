@@ -39,3 +39,6 @@ class Solution {
         return sb;
     }
 }
+
+//tc: O(maxNum * n)
+//sc: O(maxNum * n)

@@ -6,9 +6,9 @@ class Solution {
         for (int i = 0; i < truckSize; i++) {
             if (cur < boxTypes.length) {
                 res += boxTypes[cur][1];
-            if (--boxTypes[cur][0] == 0) {
-                cur++;
-            }
+                if (--boxTypes[cur][0] == 0) {
+                    cur++;
+                }
             }
         }
         return res;

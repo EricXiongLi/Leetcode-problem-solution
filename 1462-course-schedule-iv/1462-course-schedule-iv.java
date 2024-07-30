@@ -40,3 +40,6 @@ class Solution {
         return res;
     }
 }
+
+//tc: O(V^2 + E + Q)
+//sc: O(V^2)

@@ -41,3 +41,6 @@ class Solution {
         return res;
     }
 }
+
+//tc: O(E ^ 2 + V)
+//sc: O(E ^ 2 + V)

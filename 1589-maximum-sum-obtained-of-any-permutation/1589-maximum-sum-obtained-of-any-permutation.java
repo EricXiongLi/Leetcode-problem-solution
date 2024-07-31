@@ -25,3 +25,6 @@ class Solution {
         return (int)(res % mod);
     }
 }
+
+//tc: O(nlogn)
+//sc: O(nlogn)

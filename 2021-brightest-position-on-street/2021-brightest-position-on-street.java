@@ -21,3 +21,6 @@ class Solution {
         return res;
     }
 }
+
+//tc: O(nlogn)
+//sc: O(n)

@@ -10,11 +10,6 @@ class Solution {
             prefixSum[i] = prefixSum[i - 1] + nums2[i];
         }
 
-        for (int i = 0; i < n; i++) {
-            
-            System.out.println(prefixSum[i]);
-        }
-
         int l = queries.length;
         boolean[] res = new boolean[l];
 

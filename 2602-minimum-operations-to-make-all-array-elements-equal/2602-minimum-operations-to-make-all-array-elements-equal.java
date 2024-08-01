@@ -33,3 +33,6 @@ class Solution {
         return r;
     }
 }
+
+//tc: O(nlogn)
+//sc: O(n)

@@ -13,3 +13,6 @@ class Solution {
         return n2 - commonLength;
     }
 }
+
+//tc: O(n)
+//sc: O(1)

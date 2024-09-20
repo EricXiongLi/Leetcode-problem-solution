@@ -33,3 +33,6 @@ class Solution {
         return l == list.size() ? -1 : list.get(l)[2];
     }
 }
+
+//tc: O(nlogn)
+//sc: O(n)

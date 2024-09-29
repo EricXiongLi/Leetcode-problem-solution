@@ -32,3 +32,6 @@ class Solution {
         return Arrays.stream(dp).max().getAsLong();
     }
 }
+
+//tc： O（mn
+//sc： O（n）

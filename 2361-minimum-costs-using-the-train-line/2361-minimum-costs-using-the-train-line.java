@@ -20,5 +20,5 @@ class Solution {
     }
 }
 
-//tc: O(m * n)
+//tc: O(n)
 //sc: O(1)

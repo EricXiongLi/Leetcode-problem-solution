@@ -6,6 +6,7 @@ class Solution {
                 dp[i] = i;
             } else {
                 dp[i] = Math.max(dp[i - 3] * 2, Math.max(dp[i - 4] * 3, dp[i - 5] * 4));
+                dp[i] = Math.max(dp[i], dp[i - 6] * 5);
             }
         }
         

@@ -1,32 +1,21 @@
 class Solution {
     public boolean checkPossibility(int[] nums) {
-        return LIS(nums) >= nums.length - 1;
-    }
-    
-    public int LIS(int[] nums) {
-        List<Integer> res = new ArrayList<>();
-        //find the first value greater than num
-        //less, less, equal
-        //l,     m       rlm l
+        int count = 0;
         
-        for (int num : nums) {
-            int l = 0, r = res.size() - 1;
-            while (l <= r) {
-                int m = l + r >> 1;
-                if (res.get(m) <= num) {
-                    l = m + 1;
-                } else {
-                    r = m - 1;
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i + 1] < nums[i]) {
+                count++;
+                if (count > 1) {
+                    return false;
                 }
-            }
-            
-            if (l == res.size()) {
-                res.add(num);
-            } else {
-                res.set(l, num);
+                if (i - 1 < 0 || (i - 1 >= 0 && nums[i + 1] >= nums[i - 1])) {
+                    nums[i] = nums[i + 1];
+                } else {
+                    nums[i + 1] = nums[i];
+                }
             }
         }
         
-        return res.size();
+        return true;
     }
 }

@@ -1,18 +1,21 @@
 class Solution {
     public long countGood(int[] nums, int k) {
-        Map<Integer, Integer> map = new HashMap();
         int count = 0;
-        int start = 0;
         long res = 0;
+        Map<Integer, Integer> map = new HashMap<>();
         int n = nums.length;
-        for (int end = 0; end < n; end++) {
-            map.put(nums[end], map.getOrDefault(nums[end], 0) + 1);
-            count += map.get(nums[end]) - 1;
+        int left = 0;
+        for (int r = 0; r < n; r++) {
+            map.put(nums[r], map.getOrDefault(nums[r], 0) + 1);
+            count += (map.get(nums[r]) - 1);
+            
             while (count >= k) {
-                res += n - 1 - end + 1;
-                count -= (map.get(nums[start]) - 1);
-                map.put(nums[start], map.get(nums[start]) - 1);
-                start++;
+                if (count >= k) {
+                    res += (n - r);
+                }
+                map.put(nums[left], map.get(nums[left]) - 1);
+                count -= map.get(nums[left]);
+                left++;
             }
         }
         

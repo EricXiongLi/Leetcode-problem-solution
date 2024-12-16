@@ -1,5 +1,6 @@
 class Solution {
     public boolean checkPartitioning(String s) {
+        //Inspired by WisdomPeak, I din't know intervals dp before
         int n = s.length();
         //is string[i, j] is palindrome
         //dp[i][j] = flase ? dp[i + 1][j - 1]
@@ -30,3 +31,6 @@ class Solution {
         
     }
 }
+
+//tc: O(n ^ 2)
+//sc: O(n ^ 2)

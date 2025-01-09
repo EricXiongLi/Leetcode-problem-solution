@@ -1,19 +1,23 @@
 class Solution {
     public int findPairs(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
-        for (int num : nums) {
-            map.put(num, map.getOrDefault(num, 0) + 1);            
+
+        for (int i = 0; i < nums.length; i++) {
+            //y -x = k
+            ///y = x + k
+            //y - x = -k
+            //y = -k + x
+           map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
         }
         int res = 0;
-        for (int val : map.keySet()) {
-            if ((k > 0 && map.containsKey(val + k)) || (k == 0 && map.get(val) > 1)) {
-                res++;
+        for (int key : map.keySet()) {
+            if (k == 0) {
+                if (map.get(key) > 1) res++;
+            } else {
+                if (map.containsKey(key - k)) res++;
             }
         }
+
         return res;
     }
 }
-
-//难点在于如何处理k = 0
-//tc: O(n)
-//sc: O(n)

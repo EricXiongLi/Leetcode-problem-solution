@@ -1,17 +1,14 @@
 class Solution {
     public int minSubArrayLen(int target, int[] nums) {
-        //sliding window
-        int curSum = 0;
+        int left = 0;
         int res = Integer.MAX_VALUE;
-        int l = 0;
-        for (int r = l; r < nums.length; r++) {
-            curSum += nums[r];
+        int curSum = 0;
+        for (int right = 0; right < nums.length; right++) {
+            curSum += nums[right];
             while (curSum >= target) {
-                if (res > r - l + 1) {
-                    res = r - l + 1;
-                }
-                curSum -= nums[l];
-                l++;
+                res = Math.min(res, right - left + 1);
+                curSum -= nums[left];
+                left++;
             }
         }
         return res == Integer.MAX_VALUE ? 0 : res;

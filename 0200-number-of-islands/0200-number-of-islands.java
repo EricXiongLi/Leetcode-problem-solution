@@ -1,65 +1,38 @@
 class Solution {
+    private static int[][] dirs = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+
     public int numIslands(char[][] grid) {
-        int[][] dirs = new int[][]{{1, 0}, {0, 1}};
-        int m = grid.length, n = grid[0].length;
-        DSU dsu = new DSU(m * n);
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == '1') {
-                    for (int[] dir : dirs) {
-                        int newRow = i + dir[0];
-                        int newCol = j + dir[1];
-                        if (newRow >= 0 && newCol >= 0 && newRow < m && newCol < n && grid[newRow][newCol] == '1') {
-                            dsu.union(i * n + j, newRow * n + newCol);
-                        }
-                    }
+        int m = grid.length;
+        int n = grid[0].length;
+        int count = 0;
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (grid[r][c] == '1') {
+                    count++;
+                    bfs(grid, m, n, r, c);
                 }
             }
         }
-        int count = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == '1' && i * n + j == dsu.find(i * n + j))
-                    count++;
-            }
-        }
+
         return count;
     }
-    
-    
-}
 
-class DSU {
-    int[] parent;
-    int[] size;
-    
-    public DSU(int n) {
-        parent = new int[n];
-        size = new int[n];
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-        }
-        Arrays.fill(size, 1);
-    }
-    
-    public int find(int x) {
-        if (parent[x] == x) {
-            return x;
-        }
-        parent[x] = find(parent[x]);
-        return parent[x];
-    }
-    
-    public void union(int x, int y) {
-        int rootX = find(x), rootY = find(y);
-        if (rootX == rootY) return;
-        if (size[rootX] <= size[rootY]) {
-            parent[rootX] = rootY;
-            size[rootY] += size[rootX];
-        } else {
-            parent[rootY] = rootX;
-            size[rootX] += size[rootY];
+    public void bfs(char[][] grid, int m, int n, int r, int c) {
+        Queue<int[]> q = new LinkedList<>();
+
+        q.offer(new int[]{r, c});
+        grid[r][c] = '2';
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            for (int[] dir : dirs) {
+                int neiR = dir[0] + cur[0];
+                int neiC = dir[1] + cur[1];
+
+                if (neiR >= 0 && neiR < m && neiC >= 0 && neiC < n && grid[neiR][neiC] == '1') {
+                    grid[neiR][neiC] = '2';
+                    q.offer(new int[]{neiR, neiC});
+                }
+            }
         }
     }
 }
-

@@ -1,36 +1,44 @@
 class Solution {
-    public int[] findOrder(int numCourses, int[][] pre) {
-        int n = numCourses;
-        int[] indegree = new int[n];
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        
-        for (int i = 0; i < pre.length; i++) {
-            int start = pre[i][1], end = pre[i][0];
-            indegree[end]++;
-            map.computeIfAbsent(start, v-> new ArrayList<>()).add(end);
+    public int[] findOrder(int numcourses, int[][] prerequisites) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+
+        int[] indegree = new int[numcourses];
+
+        for (int[] pre : prerequisites) {
+            int from = pre[1], to = pre[0];
+            indegree[to]++;
+            graph.computeIfAbsent(from, v -> new ArrayList<Integer>()).add(to);
+            graph.computeIfAbsent(to, v -> new ArrayList<Integer>()).add(from);
         }
-        
+
         Queue<Integer> q = new LinkedList<>();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < numcourses; i++) {
             if (indegree[i] == 0) {
                 q.offer(i);
             }
         }
-        List<Integer> res = new ArrayList<>();
-        
+
+        int[] res = new int[numcourses];
+
+        int p = 0;
+        int count = 0;
+
         while (!q.isEmpty()) {
-            int cur = q.poll();
-            res.add(cur);
-            for (int nei : map.getOrDefault(cur, new ArrayList<>())) {
-                indegree[nei]--;
-                if (indegree[nei] == 0) {
-                    q.offer(nei);
+            int sz = q.size();
+            for (int i = 0; i < sz; i++) {
+                int cur = q.poll();
+                res[p++] = cur;
+                count++;
+
+                for (int nei : graph.getOrDefault(cur, new ArrayList<Integer>())) {
+                    indegree[nei]--;
+                    if (indegree[nei] == 0) {
+                        q.offer(nei);
+                    }
                 }
             }
         }
-        if (res.size() != n) {
-            return new int[0];
-        }
-        return res.stream().mapToInt(i -> i).toArray();
+
+        return count == numcourses ? res : new int[0];
     }
 }

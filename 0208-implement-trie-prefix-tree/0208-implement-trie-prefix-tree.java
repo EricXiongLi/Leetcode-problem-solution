@@ -1,49 +1,62 @@
 class Trie {
     TrieNode root;
-    
     public Trie() {
         root = new TrieNode();
     }
     
     public void insert(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            if (node.children[c - 'a'] == null) {
-                node.children[c - 'a'] = new TrieNode();
+        TrieNode cur = root;
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if (cur.tns[c - 'a'] == null) {
+                cur.tns[c - 'a'] = new TrieNode();
             }
-            node = node.children[c - 'a'];
+            cur = cur.tns[c - 'a'];
+            if (i == word.length() - 1) {
+                cur.isEnd = true;
+            }
         }
-        node.isWord = true;
     }
     
     public boolean search(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            if (node.children[c - 'a'] == null) {
+        TrieNode cur = root;
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if (cur.tns[c - 'a'] == null) {
                 return false;
             }
-            node = node.children[c - 'a'];
+
+            cur = cur.tns[c - 'a'];
+            if (i == word.length() - 1) {
+                return cur.isEnd;
+            }
         }
-        
-        return node.isWord;
+
+        return true;
     }
     
     public boolean startsWith(String prefix) {
-        TrieNode node = root;
+        TrieNode cur = root;
         for (char c : prefix.toCharArray()) {
-            if (node.children[c - 'a'] == null) {
+            if (cur.tns[c - 'a'] == null) {
                 return false;
             }
-            node = node.children[c - 'a'];
+            cur = cur.tns[c - 'a'];
         }
         return true;
     }
 }
 
 class TrieNode {
-    TrieNode[] children = new TrieNode[26];
-    boolean isWord;
+    boolean isEnd;
+    TrieNode[] tns;
+
+    public TrieNode() {
+        isEnd = false;
+        tns = new TrieNode[26];
+    }
 }
+
 /**
  * Your Trie object will be instantiated and called as such:
  * Trie obj = new Trie();

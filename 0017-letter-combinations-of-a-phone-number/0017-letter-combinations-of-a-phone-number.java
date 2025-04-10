@@ -1,8 +1,9 @@
 class Solution {
     List<String> res = new LinkedList<>();
-    
+    Map<Character, String> map = new HashMap<>();
+
     public List<String> letterCombinations(String digits) {
-        Map<Character, String> map = new HashMap<>();
+        if (digits.length() == 0) return res;
         map.put('2', "abc");
         map.put('3', "def");
         map.put('4', "ghi");
@@ -11,29 +12,22 @@ class Solution {
         map.put('7', "pqrs");
         map.put('8', "tuv");
         map.put('9', "wxyz");
-        if (digits.length() == 0) {
-            return res;
-        }
-        dfs(digits, 0, new StringBuilder(), map);
+
+        backtracking(digits, 0, new StringBuilder());
         return res;
     }
-    
-    public void dfs(String digits, int pos, StringBuilder tmp, Map<Character, String> map) {
-        
-        if (pos == digits.length()) {
-            res.add(new String(tmp));
+
+    public void backtracking(String digits, int i, StringBuilder sb) {
+        if (i == digits.length()) {
+            res.add(new String(sb));
             return;
         }
-        
-        char c = digits.charAt(pos);
-        for (char cur : map.get(c).toCharArray()) {
-            tmp.append(cur);
-            dfs(digits, pos + 1, tmp, map);
-            tmp.deleteCharAt(tmp.length() - 1);
+        String options = map.get(digits.charAt(i));
+
+        for (char c : options.toCharArray()) {
+            sb.append(c);
+            backtracking(digits, i + 1, sb);
+            sb.deleteCharAt(sb.length() - 1);
         }
     }
-
 }
-
-//tc: O (4 ^ N * N)
-//sc: O(n)

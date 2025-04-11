@@ -1,14 +1,9 @@
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-
 class FooBar {
     private int n;
-    //0: to print foo
-    //1: to rpint bar
-    private volatile int flag = 0;
-    private final ReentrantLock lock = new ReentrantLock();
-    private final Condition fooNotPrinted = lock.newCondition();
-    private final Condition barNotPrinted = lock.newCondition();
+    Lock lock = new ReentrantLock();
+    Condition fooCondition = lock.newCondition();
+    Condition barCondition = lock.newCondition();
+    boolean shouldFoo = true;
 
     public FooBar(int n) {
         this.n = n;
@@ -17,41 +12,42 @@ class FooBar {
     public void foo(Runnable printFoo) throws InterruptedException {
         
         for (int i = 0; i < n; i++) {
-            
-        	// printFoo.run() outputs "foo". Do not change or remove this line.
-        	try {
+            try {
                 lock.lock();
-                while (flag != 0) {
-                    fooNotPrinted.await();
+                while (!shouldFoo) {
+                    fooCondition.await();
                 }
                 printFoo.run();
-                flag = 1;
-                barNotPrinted.signalAll();
-            } catch (InterruptedException e) {
-
+                shouldFoo = !shouldFoo;
+                barCondition.signal();
+            } catch(Exception e) {
             } finally {
                 lock.unlock();
             }
+        	// printFoo.run() outputs "foo". Do not change or remove this line.
+        	
         }
     }
 
     public void bar(Runnable printBar) throws InterruptedException {
         
         for (int i = 0; i < n; i++) {
+            
+            // printBar.run() outputs "bar". Do not change or remove this line.
+
+
             try {
                 lock.lock();
-                while (flag != 1) {
-                    barNotPrinted.await();
+                while (shouldFoo) {
+                    barCondition.await();
                 }
                 printBar.run();
-                flag = 0;
-                fooNotPrinted.signal();
+                shouldFoo = !shouldFoo;
+                fooCondition.signal();
+            } catch(Exception e) {
             } finally {
                 lock.unlock();
             }
-            
-            // printBar.run() outputs "bar". Do not change or remove this line.
-        	
         }
     }
 }

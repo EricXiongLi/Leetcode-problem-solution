@@ -1,38 +1,55 @@
 class Solution {
     public int countComponents(int n, int[][] edges) {
-        Map<Integer, List<Integer>> graph = new HashMap();
-        
+        DSU dsu = new DSU(n);
         for (int[] edge : edges) {
-            int start = edge[0], end = edge[1];
-            graph.putIfAbsent(start, new ArrayList<Integer>());
-            graph.get(start).add(end);
-            graph.putIfAbsent(end, new ArrayList<Integer>());
-            graph.get(end).add(start);
+            dsu.union(edge[0], edge[1]);
         }
-        //0: not visited yet, 1: visited
-        int visited[] = new int[n];
+
         int count = 0;
-        Queue<Integer> q = new ArrayDeque();
+
         for (int i = 0; i < n; i++) {
-            if (visited[i] == 0) {
-                visited[i] = 1;
+            if (dsu.find(i) == i) {
                 count++;
-                q.offer(i);
-                while (!q.isEmpty()) {
-                    int cur = q.poll();
-                    for (int nei : graph.getOrDefault(cur, new ArrayList<Integer>())) {
-                        if (visited[nei] == 0) {
-                            visited[nei] = 1;
-                            q.offer(nei);
-                        }
-                    }
-                }
             }
         }
-        
+
         return count;
     }
-}
 
-//tc: O(n)
-//sc: O(n)
+    public class DSU {
+        public int[] parents;
+        public int N;
+        public int[] size;
+
+        public DSU(int N) {
+            this.N = N;
+            size = new int[N];
+            parents = new int[N];
+            for (int i = 0; i < N; i++) {
+                parents[i] = i;
+            }
+
+            Arrays.fill(size, 1);
+        }
+
+        public int find(int x) {
+            if (parents[x] != x) {
+                parents[x] = find(parents[x]);
+            }
+            return parents[x];
+        }
+
+        public void union(int x, int y) {
+            int rootX = find(x);
+            int rootY = find(y);
+            if (rootX == rootY) return;
+            if (size[rootX] < size[rootY]) {
+                parents[rootX] = rootY;
+                size[rootY] += size[rootX];
+            } else {
+                parents[rootY] = rootX;
+                size[rootX] += size[rootY];
+            }
+        }
+    }
+}

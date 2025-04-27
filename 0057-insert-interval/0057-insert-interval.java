@@ -1,30 +1,59 @@
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        List<int[]> res = new ArrayList<>();
-        boolean merged = false;
-        int prevStart = newInterval[0];
-        int prevEnd = newInterval[1];
-        for (int i = 0; i < intervals.length; i++) {
-            int curStart = intervals[i][0];
-            int curEnd = intervals[i][1];
-            if (curEnd < prevStart) {
-                res.add(intervals[i]);
-            } else if (curStart > prevEnd) {
-                if (!merged) {
-                    res.add(new int[]{prevStart, prevEnd});
-                    merged = true;
-                }
-                res.add(intervals[i]);
+        int n = intervals.length;
+        int l = 0, r = n - 1;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+
+            if (intervals[m][0] > newInterval[0]) {
+                r = m - 1;
             } else {
-                prevStart = Math.min(prevStart, curStart);
-                prevEnd = Math.max(curEnd, prevEnd);
+                l = m + 1;
             }
         }
-        
-        if (!merged) {
-            res.add(new int[]{prevStart, prevEnd});
+
+        int[][] res = new int[n + 1][2];
+        for (int i = 0; i <= r; i++) {
+            res[i] = intervals[i];
         }
-        
-        return res.toArray(new int[0][0]);
+        res[r + 1] = newInterval;
+
+        for (int i = r + 1; i < n; i++) {
+            res[i + 1] = intervals[i];
+        }
+
+        //merge the array
+
+        int prevStart = res[0][0];
+        int prevEnd = res[0][1];
+        List<int[]> list = new ArrayList<>();
+
+        for (int i = 1; i <= n; i++) {
+            int start = res[i][0];
+            int end = res[i][1];
+
+            if (start > prevEnd) {
+                list.add(new int[]{prevStart, prevEnd});
+                prevStart = start;
+                prevEnd = end;
+            } else {
+                prevEnd = Math.max(prevEnd, end);
+            }
+        }
+
+        list.add(new int[]{prevStart, prevEnd});
+
+        int[][] ans = new int[list.size()][2];
+
+        for (int i = 0; i < list.size(); i++) {
+            ans[i] = list.get(i);
+        }
+
+        return ans;
+
+        //<=, <=, >
+        //l, m,   r
+        //        l, r
+        //    r
     }
 }

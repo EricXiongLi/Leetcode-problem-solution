@@ -1,30 +1,28 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> map = new HashMap<>();
-        int n = nums.length;
-        for (int i = 0; i < n; i++) {
-            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
         }
-        List<Integer>[] bucket = new List[n + 1];
-        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
-            if (bucket[e.getValue()] == null) {
-                bucket[e.getValue()] = new ArrayList<Integer>();
-            }
-            bucket[e.getValue()].add(e.getKey());
+
+        Map<Integer, List<Integer>> map = new HashMap<>();
+
+        for (int key : freq.keySet()) {
+            int val = freq.get(key);
+            map.computeIfAbsent(val, v -> new LinkedList<Integer>()).add(key);
         }
-        List<Integer> res = new ArrayList<>();
-        System.out.println("map is" + map);
-        System.out.println("list is" + Arrays.toString(bucket));
-        for (int i = n; i >= 0; i--) {
-            if (bucket[i] != null) {
-                for (int val : bucket[i]) {
-                res.add(val);
-                if (res.size() == k) {
-                    return res.stream().mapToInt(j -> j).toArray();
+        int[] res = new int[k];
+        int j = 0;
+        for (int i = nums.length; i >= 1; i--) {
+            for (int val : map.getOrDefault(i, new LinkedList<Integer>())) {
+                if (j < k) {
+                    res[j] = val;
+                    j++;
                 }
             }
-            }
         }
-        return res.stream().mapToInt(i -> i).toArray();
+
+        return res;
     }
 }

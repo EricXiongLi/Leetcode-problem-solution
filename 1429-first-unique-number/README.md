@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/first-unique-number/">1429. First Unique Number</a></h2><h3>Medium</h3><hr><div><p>You have a queue of integers, you need to retrieve the first unique integer in the queue.</p>
+<h2><a href="https://leetcode.com/problems/first-unique-number">1429. First Unique Number</a></h2><h3>Medium</h3><hr><p>You have a queue of integers, you need to retrieve the first unique integer in the queue.</p>
 
 <p>Implement the <code>FirstUnique</code>&nbsp;class:</p>
 
@@ -9,10 +9,11 @@
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Example 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
-<pre><b>Input: </b>
-["FirstUnique","showFirstUnique","add","showFirstUnique","add","showFirstUnique","add","showFirstUnique"]
+<pre>
+<b>Input: </b>
+[&quot;FirstUnique&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;]
 [[[2,3,5]],[],[5],[],[2],[],[3],[]]
 <b>Output: </b>
 [null,2,null,2,null,3,null,-1]
@@ -27,10 +28,11 @@ firstUnique.add(3);&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // the queue is now
 firstUnique.showFirstUnique(); // return -1
 </pre>
 
-<p><strong>Example 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>Input: </b>
-["FirstUnique","showFirstUnique","add","add","add","add","add","showFirstUnique"]
+<pre>
+<b>Input: </b>
+[&quot;FirstUnique&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;add&quot;,&quot;add&quot;,&quot;add&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;]
 [[[7,7,7,7,7,7]],[],[7],[3],[3],[7],[17],[]]
 <b>Output: </b>
 [null,-1,null,null,null,null,null,17]
@@ -45,10 +47,11 @@ firstUnique.add(17);&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// the queue is now
 firstUnique.showFirstUnique(); // return 17
 </pre>
 
-<p><strong>Example 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>Input: </b>
-["FirstUnique","showFirstUnique","add","showFirstUnique"]
+<pre>
+<b>Input: </b>
+[&quot;FirstUnique&quot;,&quot;showFirstUnique&quot;,&quot;add&quot;,&quot;showFirstUnique&quot;]
 [[[809]],[],[809],[]]
 <b>Output: </b>
 [null,809,null,-1]
@@ -68,4 +71,3 @@ firstUnique.showFirstUnique(); // return -1
 	<li><code>1 &lt;= value &lt;= 10^8</code></li>
 	<li>At most <code>50000</code>&nbsp;calls will be made to <code>showFirstUnique</code>&nbsp;and <code>add</code>.</li>
 </ul>
-</div>

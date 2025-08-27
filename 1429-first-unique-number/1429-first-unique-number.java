@@ -1,32 +1,26 @@
 class FirstUnique {
-    //
-    Queue<Integer> q = new ArrayDeque<>();
-    Map<Integer, Boolean> map = new HashMap<>();//<val, isUnique>
-    
+    Map<Integer, Integer> count = new HashMap<>();
+    Queue<Integer> q = new LinkedList<>();
+
     public FirstUnique(int[] nums) {
         for (int num : nums) {
-            add(num);
+            q.offer(num);
+            count.put(num, count.getOrDefault(num, 0) + 1);
         }
     }
     
     public int showFirstUnique() {
-        while (!q.isEmpty() && !map.get(q.peek())) {
-            q.poll();
+        while (!q.isEmpty() && count.get(q.peek()) != 1) {
+                q.poll();
         }
-        if (!q.isEmpty()) {
-            return q.peek();
-        }
-        return -1;
+
+        if (q.isEmpty()) return -1;
+        return q.peek();
     }
     
     public void add(int value) {
-        if (map.containsKey(value)) {
-            q.offer(value);
-            map.put(value, false);
-        } else {
-            q.offer(value);
-            map.put(value, true);
-        }
+        q.offer(value);
+        count.put(value, count.getOrDefault(value, 0) + 1);
     }
 }
 

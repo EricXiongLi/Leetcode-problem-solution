@@ -1,21 +1,17 @@
 class LRUCache {
-    int cap;
-    int count = 0;
-    Map<Integer, Node> map;
-    DoubleLinkedList dhl;
+    DoubleLinkedList dll = new DoubleLinkedList();
+    Map<Integer, Node> map = new HashMap<>();
+    int capacity;
     public LRUCache(int capacity) {
-        map = new HashMap<>();
-        dhl = new DoubleLinkedList();
-        cap = capacity;
+        this.capacity = capacity;
     }
     
     public int get(int key) {
         if (map.containsKey(key)) {
             Node node = map.get(key);
-            dhl.moveToHead(node);
+            dll.moveToHead(node);
             return node.val;
         }
-
         return -1;
     }
     
@@ -23,80 +19,76 @@ class LRUCache {
         if (map.containsKey(key)) {
             Node node = map.get(key);
             node.val = value;
-            dhl.moveToHead(node);
+            dll.moveToHead(node);
         } else {
-            Node node = new Node(null, null, key, value);
+            Node node = new Node(key, value);
             map.put(key, node);
-            dhl.addToHead(node);
-            count++;
-
-            if (count > cap) {
-                Node tail = dhl.removeTailNode();
-                map.remove(tail.key);
-                count--;
-            }
+            dll.addToHead(node);
         }
+        checkAndUpdate();
+    }
+
+    public void checkAndUpdate() {
+        if (dll.size > capacity) {
+            int key = dll.removeLastNode();
+            map.remove(key);
+        }
+    }
+
+    public class DoubleLinkedList {
+        Node head = new Node((int)1e5 + 1, -1);
+        Node tail = new Node((int)1e5 + 1, -1);
+        int size = 0;
         
-    }
-}
+        public DoubleLinkedList() {
+            head.next = tail;
+            tail.prev = head;
+        }
 
-class Node {
-    Node prev;
-    Node next;
-    int val;
-    int key;
-    public Node(Node prev, Node next, int key, int val) {
-        this.prev = prev;
-        this.next = next;
-        this.val = val;
-        this.key = key;
-    }
-}
+        public void addToHead(Node node) {
+            Node first = head.next;
+            head.next = node;
+            node.prev = head;
+            node.next = first;
+            first.prev = node;
+            size++;
+        }
 
-class DoubleLinkedList {
-    Node headDummy;
-    Node tailDummy;
+        public int removeLastNode() {
+            if (size > 0) {
+                Node last = tail.prev;
+                Node lastPrev = last.prev;
+                lastPrev.next = tail;
+                tail.prev = lastPrev;
+                size--;
+                return last.key;
+            }
+            return -1;
+        }
 
-    public DoubleLinkedList() {
-        headDummy = new Node(null, null, -1, -1);
-        tailDummy = new Node(headDummy, null, -1, -1);
-        headDummy.next = tailDummy;
-    }
-
-    public void addToHead(Node node) {
-        Node head = headDummy.next;
-        node.next = head;
-        node.prev = headDummy;
-        headDummy.next = node;
-        head.prev = node;
-    }
-
-    public void moveToHead(Node node) {
-        Node next = node.next;
-        Node prev = node.prev;
-        prev.next = next;
-        next.prev = prev;
-
-        addToHead(node);
+        public void moveToHead(Node node) {
+            Node prev = node.prev;
+            Node next = node.next;
+            prev.next = next;
+            next.prev = prev;
+            size--;
+            addToHead(node);
+        }
     }
 
-    public Node removeTailNode() {
-        Node tail = tailDummy.prev;
-        Node tailPrev = tail.prev;
-        tailPrev.next = tailDummy;
-        tailDummy.prev = tailPrev;
-        tail.next = null;
-        return tail;
-    }
+    public class Node {
+        int key;
+        int val;
 
-    public Node removeNode(Node node) {
-        Node next = node.next;
-        Node prev = node.prev;
-        prev.next = next;
-        next.prev = prev;
-        node.prev = null;
-        node.next = null;
-        return node;
+        Node prev;
+        Node next;
+
+        public Node(int key, int val) {
+            this.key = key;
+            this.val = val;
+            prev = null;
+            next = null;
+        }
     }
 }
 

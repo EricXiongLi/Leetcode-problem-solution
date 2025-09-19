@@ -1,54 +1,46 @@
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        int first = findFirstByBinarySearch(nums, target);
-        int last = findLastByBinarySearch(nums, target);
-        return new int[]{first, last};
+        int[] res = new int[2];
+        res[0] = findFirst(nums, target);
+        res[1] = findLast(nums, target);
+
+        return res;
     }
-    //1,2 ,3 ,4 ,4,5 ,5 ,5 ,5 ,5 ,6 ,6 
-    public int findFirstByBinarySearch(int[] nums, int target) {
-        if (nums.length == 0) {
-            return -1;
+    //<, >=
+    public int findFirst(int[] nums, int target) {
+        if (nums.length == 0) return -1;
+        int l = 0, r = nums.length - 1;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+
+            if (nums[m] < target) {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
         }
-        //1, 1
+        return nums[l] == target ? l : -1;
+    }
+
+    public int findLast(int[] nums, int target) {
+        if (nums.length == 0) return -1;
+        int l = 0, r = nums.length - 1;
+        if (r < 0) return -1;
+        //<=, >
+        while (l <= r) {
+            int m = l + (r - l)/2;
+            if (nums[m] <= target) {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
+        }
+
+        if (r == -1) return -1;
+        return nums[r] == target ? r : -1;
+        //0, 0
         //l, r
-        //lm, 
-        //2, 1
-        //2, 3 
-        
-        int left = 0, right = nums.length;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] < target) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
-        }
-        if (left != nums.length && nums[left] == target) {
-            return left;
-        }
-        return -1;
+        //m
+        //.  lr
     }
-    
-    public int findLastByBinarySearch(int[] nums, int target) {
-        if (nums.length == 0) {
-            return -1;
-        }
-        int left = 0, right = nums.length;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] <= target) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
-        }
-        
-        if (left > 0 && nums[left - 1] == target) {
-            return left - 1;
-        }
-        return -1;
-    }
-    
-    
 }

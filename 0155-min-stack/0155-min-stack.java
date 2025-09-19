@@ -1,30 +1,41 @@
 class MinStack {
-    //[cur, currentMin]
-    Deque<int[]> dq;
+    //[val, count], decreasing stack
+    Deque<int[]> dq = new ArrayDeque<>();
+    Deque<Integer> stack = new ArrayDeque<>();
+
     public MinStack() {
-        dq = new ArrayDeque<>();
+        
     }
     
     public void push(int val) {
+        stack.push(val);
         if (dq.isEmpty()) {
-            dq.push(new int[]{val, val});
-            return;
+            dq.push(new int[]{val, 1});
+        } else {
+            if (dq.peek()[0] == val) {
+                dq.peek()[1]++;
+            } else if (dq.peek()[0] > val) {
+                dq.push(new int[]{val, 1});
+            }
         }
-        int[] top = dq.peek();
-        int curMin = Math.min(val, top[1]);
-        dq.push(new int[]{val, curMin});
     }
     
     public void pop() {
-        dq.pop();
+        int val = stack.pop();
+        if (val == dq.peek()[0]) {
+            dq.peek()[1]--;
+            if(dq.peek()[1] == 0) {
+                dq.pop();
+            }
+        }
     }
     
     public int top() {
-        return dq.peek()[0];
+        return stack.peek();
     }
     
     public int getMin() {
-        return dq.peek()[1];
+        return dq.peek()[0];
     }
 }
 

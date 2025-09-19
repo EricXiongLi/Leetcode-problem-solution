@@ -1,20 +1,19 @@
 class MovingAverage {
-    Deque<Integer> dq = new LinkedList<>();
+    Queue<Integer> q = new LinkedList<>();
+    int size;
     int sum;
-    int sz;
     public MovingAverage(int size) {
-        sz = size;
+        this.size = size;
         sum = 0;
     }
     
     public double next(int val) {
-        dq.offer(val);
+        q.offer(val);
         sum += val;
-        if (dq.size() > sz) {
-            int head = dq.poll();
-            sum -= head;
+        if (q.size() > size) {
+            sum -= q.poll();
         }
-        return (double) sum / dq.size();
+        return (double) sum / q.size();
     }
 }
 

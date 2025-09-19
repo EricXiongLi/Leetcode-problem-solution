@@ -1,17 +1,18 @@
 class Solution {
     public int removeDuplicates(int[] nums) {
-        int pivot = 0;
-        int i = 0;
-        while (i < nums.length) {
-            while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
+        int p = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            while (i + 1 < n && nums[i + 1] == nums[i]) {
                 i++;
             }
-            int tmp = nums[pivot];
-            nums[pivot] = nums[i];
-            nums[i] = tmp;
-            pivot++;
-            i++;
+            nums[p] = nums[i];
+            p++;
         }
-        return pivot;
+        //1, 1, 2
+        //p, i
+
+        //.  p
+        return p;
     }
 }

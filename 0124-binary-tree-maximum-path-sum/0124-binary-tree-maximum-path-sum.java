@@ -14,27 +14,18 @@
  * }
  */
 class Solution {
-    public int res = -1001;
+    int res;
     public int maxPathSum(TreeNode root) {
-        maxPath(root);
+        res = Integer.MIN_VALUE;
+        dfs(root);
         return res;
     }
-
-    //the path sum of left right direction or left direction including root itslef
-    public int maxPath(TreeNode root) {
+    //the max path sum on single side, including the root
+    public int dfs(TreeNode root) {
         if (root == null) return 0;
-        int left = maxPath(root.left);
-        int right = maxPath(root.right);
-
-        int cur = Math.max(Math.max(left, right), 0) + root.val;
-        int curMax = 0;
-        if (left > 0) {
-            curMax += left;
-        }
-        if (right > 0) {
-            curMax += right;
-        }
-        res = Math.max(curMax + root.val, res);
-        return cur;
+        int left = dfs(root.left);
+        int right = dfs(root.right);
+        res = Math.max(Math.max(0, left) + Math.max(0, right) + root.val, res);
+        return Math.max(Math.max(left, right), 0) + root.val;
     }
 }

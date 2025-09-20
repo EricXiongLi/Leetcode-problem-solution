@@ -63,3 +63,6 @@ class Solution {
         return new String(chs);
     }
 }
+
+//tc: O(10 ^ 4)
+//sc: O(10^4)

@@ -1,31 +1,35 @@
 class Solution {
-    int[][] dirs = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-    
     public boolean hasPath(int[][] maze, int[] start, int[] destination) {
         int m = maze.length, n = maze[0].length;
+        Queue<int[]> q = new LinkedList<>();
         boolean[][] visited = new boolean[m][n];
-        return dfs(maze, start[0], start[1], destination, m, n, visited);
-    }
-    
-    public boolean dfs(int[][] maze, int startX, int startY, int[] destination, int m, int n, boolean[][] visited) {
-        if (visited[startX][startY]) {
-            return false;
-        }
-        if (startX == destination[0] && startY == destination[1]) {
-            return true;
-        }
-        visited[startX][startY] = true;
-        for (int[] dir : dirs) {
-            int x = startX,  y = startY;
-            while (x + dir[0] >= 0 && x + dir[0] < m && y + dir[1] >= 0 && y + dir[1] < n && maze[x + dir[0]][y + dir[1]] == 0) {
-                x += dir[0];
-                y += dir[1];
-            }
-            if (dfs(maze, x, y, destination, m, n, visited)) {
-                return true;
-            }
-        }
+        int[][] dirs = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        int startRow = start[0], startCol = start[1];
+        visited[startRow][startCol] = true;
+        q.offer(start);
+
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
             
+            for (int[] dir : dirs) {
+                int curRow = cur[0], curCol = cur[1];
+                while (curRow + dir[0] < m && curRow + dir[0] >= 0 && curCol + dir[1] < n && curCol + dir[1] >= 0 && maze[curRow + dir[0]][curCol + dir[1]] == 0) {
+                    curRow += dir[0];
+                    curCol += dir[1];
+                }
+
+
+                if (curRow == destination[0] && curCol == destination[1]) {
+                    return true;
+                }
+
+                if (!visited[curRow][curCol]) {
+                    q.offer(new int[]{curRow, curCol});
+                    visited[curRow][curCol] = true;
+                }
+            }
+        }
         return false;
     }
 }

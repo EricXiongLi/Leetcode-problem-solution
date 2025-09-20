@@ -1,9 +1,9 @@
 class Solution {
     List<String> res = new LinkedList<>();
-    Map<Character, String> map = new HashMap<>();
 
     public List<String> letterCombinations(String digits) {
         if (digits.length() == 0) return res;
+        Map<Character, String> map = new HashMap<>();
         map.put('2', "abc");
         map.put('3', "def");
         map.put('4', "ghi");
@@ -12,21 +12,21 @@ class Solution {
         map.put('7', "pqrs");
         map.put('8', "tuv");
         map.put('9', "wxyz");
+        StringBuilder sb = new StringBuilder();
+        backtracking(map, digits, 0, sb);
 
-        backtracking(digits, 0, new StringBuilder());
         return res;
     }
 
-    public void backtracking(String digits, int i, StringBuilder sb) {
+    public void backtracking(Map<Character, String> map, String digits, int i, StringBuilder sb) {
         if (i == digits.length()) {
             res.add(new String(sb));
             return;
         }
-        String options = map.get(digits.charAt(i));
 
-        for (char c : options.toCharArray()) {
+        for (char c : map.get(digits.charAt(i)).toCharArray()) {
             sb.append(c);
-            backtracking(digits, i + 1, sb);
+            backtracking(map, digits, i + 1, sb);
             sb.deleteCharAt(sb.length() - 1);
         }
     }

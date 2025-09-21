@@ -1,28 +1,22 @@
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        // dp[i]: whethere s[0: i] can be segmented
+        //dp[i]: whether s[0: i] can be segmented
 
-        //recurence relation
-        //dp[i] = Any(dp[i - word.length()] && s[i - word.length() + 1, i] is in wordDict)
+        //recurrence relation
+        //dp[i] = any(dp[i - word.length()] && wordDict.contains(s[i - word.length() + 1: i]))
         int n = s.length();
-
-        Boolean[] memo = new Boolean[n];
+        boolean[] dp = new boolean[n];
         Set<String> dict = new HashSet<>(wordDict);
-        return dp(n - 1, memo, dict, s);
-    }
-
-    public boolean dp(int i, Boolean[] memo, Set<String> dict, String s) {
-        if (i < 0) return true;
-        if (memo[i] != null) return memo[i];
-
-        for (String word : dict) {
-            if (i - word.length() + 1 >= 0 && dict.contains(s.substring(i - word.length() + 1, i + 1)) && dp(i - word.length(), memo, dict, s)) {
-                memo[i] = true;
-                return memo[i];
+    
+        for (int i = 0; i < n; i++) {
+            for (String word : wordDict) {
+                if (i - word.length() + 1 >= 0 && dict.contains(s.substring(i - word.length() + 1, i + 1)) && (i - word.length() < 0 || dp[i - word.length()])) {
+                    dp[i] = true;
+                    break;
+                }
             }
         }
-        memo[i] = false;
 
-        return false;
+        return dp[n - 1];
     }
 }

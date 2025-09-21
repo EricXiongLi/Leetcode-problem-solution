@@ -45,3 +45,6 @@ class Solution {
         return visited.get(node);
     }
 }
+
+//tc: O(E + V)
+//sc: O(V)

@@ -38,3 +38,6 @@ class Solution {
 
 
 }
+
+//tc: O(mn)
+//sc: O(mn)

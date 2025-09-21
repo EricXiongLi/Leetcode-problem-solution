@@ -15,49 +15,47 @@
  */
 class Solution {
     public List<List<Integer>> verticalOrder(TreeNode root) {
-        List<List<Integer>> output = new ArrayList<>();
-        if (root == null) {
-            return output;
-        }
         int minCol = 0, maxCol = 0;
-        Map<Integer, ArrayList<Integer>> map = new HashMap<>();
-        //Pair<TreeNode, column>
-        Queue<Pair<TreeNode, Integer>> q = new LinkedList<>();
-        
-        //{0 -> [3], -1 -> [9]}
-        q.offer(new Pair<>(root, 0));
-        
-        while (!q.isEmpty()) {
-            Pair<TreeNode, Integer> cur = q.poll();
-            
-            TreeNode curNode = cur.getKey();
-            int col = cur.getValue();
-            minCol = Math.min(col, minCol);
-            maxCol = Math.max(col, maxCol);
-            map.putIfAbsent(col, new ArrayList<>());
-            
-            map.get(col).add(curNode.val);
-            
-            TreeNode left = curNode.left;
-            TreeNode right = curNode.right;
-            
-            if (left != null) {
-                q.offer(new Pair<>(left, col - 1));
+
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        List<List<Integer>> res = new ArrayList<>();
+
+        if (root == null) return res;
+        q.offer(new Pair(0, root));
+
+        while(!q.isEmpty()) {
+            Pair cur = q.poll();
+            map.computeIfAbsent(cur.col, v -> new ArrayList<>()).add(cur.node.val);
+
+            minCol = Math.min(cur.col, minCol);
+            maxCol = Math.max(cur.col, maxCol);
+
+            if (cur.node.left != null) {
+                q.offer(new Pair(cur.col - 1, cur.node.left));
             }
-            
-            if (right != null) {
-                q.offer(new Pair<>(right, col + 1));
+
+            if (cur.node.right != null) {
+                q.offer(new Pair(cur.col + 1, cur.node.right));
             }
         }
+
         
-        
+
         for (int i = minCol; i <= maxCol; i++) {
-            output.add(map.get(i));
+            res.add(map.get(i));
         }
-        
-        return output;
+
+        return res;
     }
 }
 
-// tc: O(n)
-// sc: O(n)
+class Pair {
+    int col;
+    TreeNode node;
+
+    public Pair(int col, TreeNode node) {
+        this.col = col;
+        this.node = node;
+    }
+}

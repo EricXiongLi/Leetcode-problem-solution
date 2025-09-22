@@ -1,38 +1,42 @@
 class Solution {
+    List<String> res = new LinkedList<>();
     public List<String> generateParenthesis(int n) {
-        List<String> ans = new ArrayList<>();
-        dfs(0, 0, ans, new StringBuilder(), n);
-        return ans;
+        int opening = 0, closed = 0;
+
+        StringBuilder path = new StringBuilder();
+        backtracking(n, opening, closed, path);
+        return res;
     }
-    
-    private void dfs(int open, int close, List<String> ans, StringBuilder subAns, int n) {
-        if (open == n && close == n) {
-            ans.add(new String(subAns));
+
+    public void backtracking(int n, int opening, int closed, StringBuilder path) {
+        if (opening == n && closed == n) {
+            res.add(path.toString());
             return;
         }
-        
-        if (open == 0) {
-            subAns.append('(');
-            dfs(open + 1, close, ans, subAns, n);
-            subAns.deleteCharAt(subAns.length() - 1);
-        } else if (open == n) {
-            subAns.append(')');
-            dfs(open, close + 1, ans, subAns, n);
-            subAns.deleteCharAt(subAns.length() - 1);
-        } else if (open > close) {
-            subAns.append('(');
-            dfs(open + 1, close, ans, subAns, n);
-            subAns.deleteCharAt(subAns.length() - 1);
-            subAns.append(')');
-            dfs(open, close + 1, ans, subAns, n);
-            subAns.deleteCharAt(subAns.length() - 1);
-        } else {
-            subAns.append('(');
-            dfs(open + 1, close, ans, subAns, n);
-            subAns.deleteCharAt(subAns.length() - 1);
+
+        if (opening > n || closed > n) {
+            return;
         }
+
+        if (opening >= closed && opening < n) {
+            path.append('(');
+            opening++;
+            backtracking(n, opening, closed, path);
+            path.deleteCharAt(path.length() - 1);
+            opening--;
+
+            path.append(')');
+            closed++;
+            backtracking(n, opening, closed, path);
+            path.deleteCharAt(path.length() - 1);
+            closed--;
+        } else {
+            path.append(')');
+            closed++;
+            backtracking(n, opening, closed, path);
+            path.deleteCharAt(path.length() - 1);
+            closed--;
+        }
+        
     }
 }
-
-//tc: O(2 ^ n)
-//sc: O(n)

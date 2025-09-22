@@ -43,3 +43,7 @@ class Solution {
     }
     
 }
+
+//tc: O(exponential)
+
+//sc: O(n)

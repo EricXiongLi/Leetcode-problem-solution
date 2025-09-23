@@ -1,24 +1,26 @@
 class Solution {
     public int rob(int[] nums) {
         int n = nums.length;
-
         if (n == 1) return nums[0];
-        int res1 = rob(nums, 0, n - 2);
-        int res2 = rob(nums, 1, n - 1);
-
-        return Math.max(res1, res2);
+        return Math.max(rob(nums, 0, n - 2), rob(nums, 1, n - 1));
     }
 
-    public int rob(int[] nums, int l, int r) {
-        int[] dp = new int[r - l + 1];
-        dp[0] = nums[l];
-        if (dp.length == 1) return dp[0];
-        dp[1] = Math.max(nums[l], nums[l + 1]);
+    public int rob(int[] nums, int start, int end) {
+        //dp[i][0]: the max amount within nums[0...i], without robbing nums[i]
+        //dp[i][1]: ..., with robbing nums[i]
 
-        for (int i = 2; i < dp.length; i++) {
-            dp[i] = Math.max(dp[i - 2] + nums[i + l], dp[i - 1]);
+        //dp[i][0] = max(dp[i - 1][0], dp[i - 1][1])
+        //dp[i][1] = dp[i - 1][0] + nums[i]
+        int prev0 = 0, prev1 = nums[start];
+        int next0 = 0, next1 = 0;
+        for (int i = start + 1; i <= end; i++) {
+            next0 = Math.max(prev0, prev1);
+            next1 = prev0 + nums[i];
+
+            prev0 = next0;
+            prev1 = next1;
         }
 
-        return dp[r - l];
+        return Math.max(prev0, prev1);
     }
 }

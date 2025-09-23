@@ -8,10 +8,10 @@ class Trie {
         TrieNode cur = root;
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
-            if (cur.tns[c - 'a'] == null) {
-                cur.tns[c - 'a'] = new TrieNode();
+            if (cur.nodes[c - 'a'] == null) {
+                cur.nodes[c - 'a'] = new TrieNode();
             }
-            cur = cur.tns[c - 'a'];
+            cur = cur.nodes[c - 'a'];
             if (i == word.length() - 1) {
                 cur.isEnd = true;
             }
@@ -22,38 +22,37 @@ class Trie {
         TrieNode cur = root;
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
-            if (cur.tns[c - 'a'] == null) {
+            if (cur.nodes[c - 'a'] == null) return false;
+            cur = cur.nodes[c - 'a'];
+            if (i == word.length() - 1 && cur.isEnd == false) {
                 return false;
             }
-
-            cur = cur.tns[c - 'a'];
-            if (i == word.length() - 1) {
-                return cur.isEnd;
-            }
         }
-
         return true;
     }
     
     public boolean startsWith(String prefix) {
         TrieNode cur = root;
-        for (char c : prefix.toCharArray()) {
-            if (cur.tns[c - 'a'] == null) {
+        for (int i = 0; i < prefix.length(); i++) {
+            char c = prefix.charAt(i);
+
+            if (cur.nodes[c - 'a'] == null) {
                 return false;
             }
-            cur = cur.tns[c - 'a'];
+            cur = cur.nodes[c - 'a'];
         }
+
         return true;
     }
 }
 
 class TrieNode {
+    TrieNode[] nodes;
     boolean isEnd;
-    TrieNode[] tns;
 
     public TrieNode() {
+        nodes = new TrieNode[26];
         isEnd = false;
-        tns = new TrieNode[26];
     }
 }
 

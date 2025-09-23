@@ -42,3 +42,7 @@ class Solution {
         return ans;
     }
 }
+
+//c is the # of intervals across all employees
+//tc: O(C logC)
+//sc: O(C)

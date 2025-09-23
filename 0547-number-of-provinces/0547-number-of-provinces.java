@@ -16,7 +16,7 @@ class Solution {
                 count++;
             }
         }
-        
+
 
         return count;
     }
@@ -57,3 +57,6 @@ class DSU {
         }
     }
 }
+
+//tc: O(n^2)
+//sc: O(n)

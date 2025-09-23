@@ -1,23 +1,20 @@
 class StockSpanner {
+    //decreasing stack
+    //[index, price]
+    Deque<int[]> stack = new LinkedList<>();
     int count = 0;
-    Deque<int[]> dq;
-    //1,2 ,3 , 2, 1
-    
-    //3,  
     public StockSpanner() {
-        dq = new ArrayDeque<>();
-        dq.push(new int[]{Integer.MAX_VALUE, 0});
-        count++;
+        stack.push(new int[]{0, Integer.MAX_VALUE});
     }
     
     public int next(int price) {
-        while (!dq.isEmpty() && dq.peek()[0] <= price) {
-            dq.pop();
-        }
-        int res = count - dq.peek()[1];
-        dq.push(new int[]{price, count});
         count++;
-        return res;
+        while(!stack.isEmpty() && stack.peek()[1] <= price) {
+            stack.pop();
+        }
+        int diff = count - stack.peek()[0];
+        stack.push(new int[]{count, price});
+        return diff;
     }
 }
 

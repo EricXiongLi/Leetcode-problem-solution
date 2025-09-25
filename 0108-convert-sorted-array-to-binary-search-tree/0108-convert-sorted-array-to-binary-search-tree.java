@@ -33,3 +33,7 @@ class Solution {
         return cur;
     }
 }
+
+//tc: O(n)
+
+//sc: O(log n)

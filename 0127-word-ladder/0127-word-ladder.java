@@ -1,58 +1,62 @@
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Queue<String> q1 = new LinkedList<>();
-        Queue<String> q2 = new LinkedList<>();
-        
-        Set<String> visited = new HashSet<>();
-        
-        Set<String> dict = new HashSet<>();
-        for (String word : wordList) {
-            dict.add(word);
-        }
-        if (!dict.contains(endWord)) {
+        Queue<String> q1 = new LinkedList<>(), q2 = new LinkedList<>();
+        Set<String> visited1 = new HashSet<>();
+        Set<String> visited2 = new HashSet<>();
+
+        Set<String> dict = new HashSet<>(wordList);
+        if (!wordList.contains(endWord)) {
             return 0;
         }
+        if (beginWord.equals(endWord)) return 0;
+        
         q1.offer(beginWord);
         q2.offer(endWord);
-        
-        visited.add(beginWord);
-        visited.add(endWord);
-        
-        int step = 1;
+        visited1.add(beginWord);
+        visited2.add(endWord);
+        int level = 0;
+
         while (!q1.isEmpty() && !q2.isEmpty()) {
-            if (q1.size() > q2.size()) {
-                Queue<String> tmp = q1;
-                q1 = q2;
-                q2 = tmp;
+            // Switch to the smaller queue
+            Queue<String> q;
+            Set<String> visited, otherVisited;
+            if (q1.size() <= q2.size()) {
+                q = q1;
+                visited = visited1;
+                otherVisited = visited2;
+            } else {
+                q = q2;
+                visited = visited2;
+                otherVisited = visited1;
             }
-            int sz =  q1.size();
-            for (int i = 0; i < sz; i++) {
-                char[] cur = q1.poll().toCharArray();
-                
-                for (int j = 0; j < cur.length; j++) {
-                    char origin = cur[j];
-                    
+            
+            int size = q.size();
+            level++;
+
+            for (int i = 0; i < size; i++) {
+                String cur = q.poll();
+                char[] chs = cur.toCharArray();
+                for (int j = 0; j < cur.length(); j++) {
+                    char ch = chs[j];
+
                     for (char c = 'a'; c <= 'z'; c++) {
-                        if (c != origin) {
-                            cur[j] = c;
-                        String tmp = new String(cur);
-                        
-                        if (q2.contains(tmp)) {
-                            return step + 1;
-                        }
-                        
-                        if (!visited.contains(tmp) && dict.contains(tmp)) {
-                            visited.add(tmp);
-                            q1.offer(tmp);
-                        }
+                        if (ch != c) {
+                            chs[j] = c;
+                            String nei = new String(chs);
+                            if (otherVisited.contains(nei)) {
+                                return level + 1;
+                            }
+                            if (dict.contains(nei) && !visited.contains(nei)) {
+                                visited.add(nei);
+                                q.offer(nei);
+                            }
+                            chs[j] = ch;
                         }
                     }
-                    cur[j] = origin;
                 }
             }
-            step++;
         }
-        
+
         return 0;
     }
 }

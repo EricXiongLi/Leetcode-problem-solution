@@ -2,33 +2,30 @@ class Solution {
     public int shortestPathBinaryMatrix(int[][] grid) {
         int m = grid.length, n = grid[0].length;
         boolean[][] visited = new boolean[m][n];
-        int[][] dirs = new int[][]{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
-        Queue<int[]> q = new LinkedList<>();
-        if (grid[0][0] != 0) return -1;
-        q.offer(new int[]{0, 0});
+        if (grid[0][0] != 0 || grid[m - 1][n - 1] != 0) return -1;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{0, 0});
         visited[0][0] = true;
-        int step = 1;
-        while (!q.isEmpty()) {
-            int sz = q.size();
-            for (int i = 0; i < sz; i++) {
-                int[] cur = q.poll();
-            int curRow = cur[0], curCol = cur[1];
-            if (curRow == m - 1 && curCol == n - 1) {
-                return step;
-            }
-            for (int[] dir : dirs) {
-                int newRow = curRow + dir[0];
-                int newCol = curCol + dir[1];
-                if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && grid[newRow][newCol] == 0) {
-                    if (!visited[newRow][newCol]) {
-                        q.offer(new int[]{newRow, newCol});
-                        visited[newRow][newCol] = true;
+        int level = 0;
+        int[][] dirs = new int[][]{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            level++;
+            for (int i = 0; i < size; i++) {
+                int[] cur = queue.poll();
+
+                for (int[] dir : dirs) {
+                    int neiRow = cur[0] + dir[0], neiCol = cur[1] + dir[1];
+
+                    if (neiRow == m - 1 && neiCol == n - 1) return level + 1;;
+                    if (neiRow >= 0 && neiRow < m && neiCol >= 0 && neiCol < n && !visited[neiRow][neiCol] && grid[neiRow][neiCol] == 0) {
+                        queue.offer(new int[] {neiRow, neiCol});
+                        visited[neiRow][neiCol] = true;
                     }
                 }
             }
-            }
-            step++;
         }
+
         return -1;
     }
 }

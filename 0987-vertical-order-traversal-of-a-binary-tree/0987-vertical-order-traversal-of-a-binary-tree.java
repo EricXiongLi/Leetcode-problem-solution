@@ -1,52 +1,59 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-    Map<Integer, ArrayList<Pair<Integer, Integer>>> columnTable = new HashMap();
-    int minColumn = 0, maxColumn = 0;
-
-    private void DFS(TreeNode node, Integer row, Integer column) {
-        if (node == null)
-            return;
-
-        if (!columnTable.containsKey(column)) {
-            this.columnTable.put(column, new ArrayList<Pair<Integer, Integer>>());
-        }
-
-        this.columnTable.get(column).add(new Pair<Integer, Integer>(row, node.val));
-        this.minColumn = Math.min(minColumn, column);
-        this.maxColumn = Math.max(maxColumn, column);
-        // preorder DFS traversal
-        this.DFS(node.left, row + 1, column - 1);
-        this.DFS(node.right, row + 1, column + 1);
-    }
-
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        List<List<Integer>> output = new ArrayList();
-        if (root == null) {
-            return output;
-        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        Queue<Pair<TreeNode, Integer>> queue = new LinkedList<>();
+        queue.offer(new Pair<TreeNode, Integer>(root, 0));
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+        map.computeIfAbsent(0, v -> new ArrayList<Integer>()).add(root.val);
+        int min = 0, max = 0;
+        while (!queue.isEmpty()) {
+            Pair<TreeNode, Integer> cur = queue.poll();
+            int col = cur.col;
+            TreeNode node = cur.node;
 
-        // step 1). DFS traversal
-        this.DFS(root, 0, 0);
-
-        // step 2). retrieve the value from the columnTable
-        for (int i = minColumn; i < maxColumn + 1; ++i) {
-            // order by both "row" and "value"
-            Collections.sort(columnTable.get(i), new Comparator<Pair<Integer, Integer>>() {
-                @Override
-                public int compare(Pair<Integer, Integer> p1, Pair<Integer, Integer> p2) {
-                    if (p1.getKey().equals(p2.getKey()))
-                        return p1.getValue() - p2.getValue();
-                    else
-                        return p1.getKey() - p2.getKey();
-                }
-            });
-
-            List<Integer> sortedColumn = new ArrayList();
-            for (Pair<Integer, Integer> p : columnTable.get(i)) {
-                sortedColumn.add(p.getValue());
+            if (node.left != null) {
+                min = Math.min(min, col - 1);
+                queue.offer(new Pair<TreeNode, Integer>(node.left, col - 1));
+                map.computeIfAbsent(col - 1, v -> new ArrayList<Integer>()).add(node.left.val);
             }
-            output.add(sortedColumn);
+            if (node.right != null) {
+                max = Math.max(max, col + 1);
+                queue.offer(new Pair<TreeNode, Integer>(node.right, col + 1));
+                map.computeIfAbsent(col + 1, v -> new ArrayList<Integer>()).add(node.right.val);
+            }
         }
 
-        return output;
+        for (int col = min; col <= max; col++) {
+            Collections.sort(map.get(col));
+            res.add(map.get(col));
+        }
+
+        return res;
+    }
+}
+
+class Pair<F, S> {
+    F node;
+    S col;
+
+    public Pair(F node, S col) {
+        this.node = node;
+        this.col = col;
     }
 }

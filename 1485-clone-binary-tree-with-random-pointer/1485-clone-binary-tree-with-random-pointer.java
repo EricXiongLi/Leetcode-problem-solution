@@ -17,27 +17,22 @@
  */
 
 class Solution {
-    Map<Node, NodeCopy> map = new HashMap();
-    
+    Map<Node, NodeCopy> map = new HashMap<>();
     public NodeCopy copyRandomBinaryTree(Node root) {
         return dfs(root);
     }
-    
+
     public NodeCopy dfs(Node root) {
-        if (root == null) {
-            return null;
-        }
-        if (map.containsKey(root)) {
-            return map.get(root);
-        }
+        if (root == null) return null;
+        if (map.containsKey(root)) return map.get(root);
         NodeCopy copy = new NodeCopy(root.val);
         map.put(root, copy);
-        copy.left = dfs(root.left);
-        copy.right = dfs(root.right);
-        copy.random = dfs(root.random);
+        NodeCopy left = dfs(root.left);
+        NodeCopy right = dfs(root.right);
+        NodeCopy random = dfs(root.random);
+        copy.left = left;
+        copy.random = random;
+        copy.right = right;
         return copy;
     }
 }
-
-//tc: O(n)
-//sc: O(n)

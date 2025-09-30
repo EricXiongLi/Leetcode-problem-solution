@@ -14,38 +14,38 @@
  * }
  */
 class Solution {
-    Set<Integer> set;
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
-        set = new HashSet();
-        List<TreeNode> res = new ArrayList();
-        for (int item : to_delete) {
-            set.add(item);
+        Set<Integer> delete = new HashSet<>();
+        for (int val : to_delete) {
+            delete.add(val);
         }
-        if (!set.contains(root.val)) {
-            res.add(root);
-        }
-        dfs(root, res);
+
+        List<TreeNode> res = new ArrayList<>();
+        if (!delete.contains(root.val)) res.add(root);
+        dfs(root, delete, res);
         return res;
     }
-    
-    public TreeNode dfs(TreeNode node, List<TreeNode> res) {
-        if (node == null) {
+
+    //1. Every one takes care if their children to be added to res
+    public TreeNode dfs(TreeNode cur, Set<Integer> delete, List<TreeNode> res) {
+        if (cur == null) {
             return null;
         }
-        node.left = dfs(node.left, res);
-        node.right = dfs(node.right, res);
-        if (set.contains(node.val)) {
-            if (node.left != null) {
-                res.add(node.left);
-            }
-            if (node.right != null) {
-                res.add(node.right);
-            }
+
+        TreeNode left = dfs(cur.left, delete, res);
+        TreeNode right = dfs(cur.right, delete, res);
+
+        if (delete.contains(cur.val)) {
+            if (left != null) res.add(left);
+            if (right != null) res.add(right);
             return null;
         }
-        return node;
+
+        cur.left = left;
+        cur.right = right;
+
+        return cur;
+
+
     }
 }
-
-//tc: O(n)
-//sc: O(n)

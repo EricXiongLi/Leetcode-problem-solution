@@ -1,32 +1,33 @@
 class BrowserHistory {
-    Deque<String> backward = new ArrayDeque<>();
-    Deque<String> forward = new ArrayDeque<>();
-    
+    Deque<String> temp = new LinkedList<>();
+    Deque<String> cur = new LinkedList<>();
     public BrowserHistory(String homepage) {
-        backward.push(homepage);
+        cur.push(homepage);
     }
     
     public void visit(String url) {
-        forward.clear();
-        backward.push(url);
+        temp.clear();
+        cur.push(url);
     }
     
     public String back(int steps) {
-        int sz = backward.size();
-        for (int i = 0; i < Math.min(sz - 1, steps); i++) {
-            String s = backward.pop();
-            forward.push(s);
+        int count = Math.min(steps, cur.size() - 1);
+
+        for (int i = 0; i < count; i++) {
+            temp.push(cur.pop());
         }
-        return backward.peekFirst();
+
+        return cur.peek();
     }
     
     public String forward(int steps) {
-        int sz = forward.size();
-        for (int i = 0; i < Math.min(steps, sz); i++) {
-            String s = forward.pop();
-            backward.push(s);
+        int count = Math.min(temp.size(), steps);
+
+        for (int i = 0; i < count; i++) {
+            cur.push(temp.pop());
         }
-        return backward.peek();
+
+        return cur.peek();
     }
 }
 

@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/design-browser-history/">1472. Design Browser History</a></h2><h3>Medium</h3><hr><div><p>You have a <strong>browser</strong> of one tab where you start on the <code>homepage</code> and you can visit another <code>url</code>, get back in the history number of <code>steps</code> or move forward in the history number of <code>steps</code>.</p>
+<h2><a href="https://leetcode.com/problems/design-browser-history">1472. Design Browser History</a></h2><h3>Medium</h3><hr><p>You have a <strong>browser</strong> of one tab where you start on the <code>homepage</code> and you can visit another <code>url</code>, get back in the history number of <code>steps</code> or move forward in the history number of <code>steps</code>.</p>
 
 <p>Implement the <code>BrowserHistory</code> class:</p>
 
@@ -10,26 +10,27 @@
 </ul>
 
 <p>&nbsp;</p>
-<p><strong>Example:</strong></p>
+<p><strong class="example">Example:</strong></p>
 
-<pre><b>Input:</b>
-["BrowserHistory","visit","visit","visit","back","back","forward","visit","forward","back","back"]
-[["leetcode.com"],["google.com"],["facebook.com"],["youtube.com"],[1],[1],[1],["linkedin.com"],[2],[2],[7]]
+<pre>
+<b>Input:</b>
+[&quot;BrowserHistory&quot;,&quot;visit&quot;,&quot;visit&quot;,&quot;visit&quot;,&quot;back&quot;,&quot;back&quot;,&quot;forward&quot;,&quot;visit&quot;,&quot;forward&quot;,&quot;back&quot;,&quot;back&quot;]
+[[&quot;leetcode.com&quot;],[&quot;google.com&quot;],[&quot;facebook.com&quot;],[&quot;youtube.com&quot;],[1],[1],[1],[&quot;linkedin.com&quot;],[2],[2],[7]]
 <b>Output:</b>
-[null,null,null,null,"facebook.com","google.com","facebook.com",null,"linkedin.com","google.com","leetcode.com"]
+[null,null,null,null,&quot;facebook.com&quot;,&quot;google.com&quot;,&quot;facebook.com&quot;,null,&quot;linkedin.com&quot;,&quot;google.com&quot;,&quot;leetcode.com&quot;]
 
 <b>Explanation:</b>
-BrowserHistory browserHistory = new BrowserHistory("leetcode.com");
-browserHistory.visit("google.com");       // You are in "leetcode.com". Visit "google.com"
-browserHistory.visit("facebook.com");     // You are in "google.com". Visit "facebook.com"
-browserHistory.visit("youtube.com");      // You are in "facebook.com". Visit "youtube.com"
-browserHistory.back(1);                   // You are in "youtube.com", move back to "facebook.com" return "facebook.com"
-browserHistory.back(1);                   // You are in "facebook.com", move back to "google.com" return "google.com"
-browserHistory.forward(1);                // You are in "google.com", move forward to "facebook.com" return "facebook.com"
-browserHistory.visit("linkedin.com");     // You are in "facebook.com". Visit "linkedin.com"
-browserHistory.forward(2);                // You are in "linkedin.com", you cannot move forward any steps.
-browserHistory.back(2);                   // You are in "linkedin.com", move back two steps to "facebook.com" then to "google.com". return "google.com"
-browserHistory.back(7);                   // You are in "google.com", you can move back only one step to "leetcode.com". return "leetcode.com"
+BrowserHistory browserHistory = new BrowserHistory(&quot;leetcode.com&quot;);
+browserHistory.visit(&quot;google.com&quot;);       // You are in &quot;leetcode.com&quot;. Visit &quot;google.com&quot;
+browserHistory.visit(&quot;facebook.com&quot;);     // You are in &quot;google.com&quot;. Visit &quot;facebook.com&quot;
+browserHistory.visit(&quot;youtube.com&quot;);      // You are in &quot;facebook.com&quot;. Visit &quot;youtube.com&quot;
+browserHistory.back(1);                   // You are in &quot;youtube.com&quot;, move back to &quot;facebook.com&quot; return &quot;facebook.com&quot;
+browserHistory.back(1);                   // You are in &quot;facebook.com&quot;, move back to &quot;google.com&quot; return &quot;google.com&quot;
+browserHistory.forward(1);                // You are in &quot;google.com&quot;, move forward to &quot;facebook.com&quot; return &quot;facebook.com&quot;
+browserHistory.visit(&quot;linkedin.com&quot;);     // You are in &quot;facebook.com&quot;. Visit &quot;linkedin.com&quot;
+browserHistory.forward(2);                // You are in &quot;linkedin.com&quot;, you cannot move forward any steps.
+browserHistory.back(2);                   // You are in &quot;linkedin.com&quot;, move back two steps to &quot;facebook.com&quot; then to &quot;google.com&quot;. return &quot;google.com&quot;
+browserHistory.back(7);                   // You are in &quot;google.com&quot;, you can move back only one step to &quot;leetcode.com&quot;. return &quot;leetcode.com&quot;
 </pre>
 
 <p>&nbsp;</p>
@@ -39,7 +40,6 @@ browserHistory.back(7);                   // You are in "google.com", you can mo
 	<li><code>1 &lt;= homepage.length &lt;= 20</code></li>
 	<li><code>1 &lt;= url.length &lt;= 20</code></li>
 	<li><code>1 &lt;= steps &lt;= 100</code></li>
-	<li><code>homepage</code> and <code>url</code> consist of&nbsp; '.' or lower case English letters.</li>
+	<li><code>homepage</code> and <code>url</code> consist of&nbsp; &#39;.&#39; or lower case English letters.</li>
 	<li>At most <code>5000</code>&nbsp;calls will be made to <code>visit</code>, <code>back</code>, and <code>forward</code>.</li>
 </ul>
-</div>

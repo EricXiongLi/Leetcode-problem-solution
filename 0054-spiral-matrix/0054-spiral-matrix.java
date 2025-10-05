@@ -1,39 +1,35 @@
 class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
-        // List<Character> list = new ArrayList<>();
-        // Collections.addAll(list, "r", "d", "l", "u");
-        int r = 0;
-        int c = -1;
-        int dir = 0;
+        List<Integer> res = new ArrayList<>();
 
-        int m = matrix.length;
-        int n = matrix[0].length;
+        int row = 0, col = 0;
+        int m = matrix.length, n = matrix[0].length;
+        int[][] dirs = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int movement = 0;
+        boolean[][] visited = new boolean[m][n];
+        visited[row][col] = true;
+        while (res.size() < m * n) {
+            res.add(matrix[row][col]);
 
-        List<Integer> list = new LinkedList<>();
-
-        while (list.size() < m * n) {
-            int newR = r, newC = c;
-            if (dir == 0) {
-                newC++;
-            } else if (dir == 1) {
-                newR++;
-            } else if (dir == 2) {
-                newC--;
+            //case1: keep direction
+            int nextRow = row + dirs[movement][0];
+            int nextCol = col + dirs[movement][1];
+            if (nextRow >= 0 && nextRow < m & nextCol >= 0 && nextCol < n && !visited[nextRow][nextCol]) {
+                row = nextRow;
+                col = nextCol;
             } else {
-                newR--;
+                movement = (movement + 1) % 4;
+                row = row + dirs[movement][0];
+                col = col + dirs[movement][1];
             }
-
-            if (newR < 0 || newR >= m || newC < 0 || newC >= n || matrix[newR][newC] == -10000) {
-                dir = (dir + 1) % 4;
-            } else {
-                list.add(matrix[newR][newC]);
-                matrix[newR][newC] = -10000;
-                r = newR;
-                c = newC;
+            if (row >= 0 && row < m && col >= 0 && col < n) {
+                visited[row][col] = true;
             }
-            
         }
 
-        return list;
+        return res;
     }
 }
+
+//tc: O(m * n)
+//sc: O(m * n)

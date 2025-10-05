@@ -25,6 +25,10 @@ class HitCounter {
     }
 }
 
+//tc: amortized O(1)
+//sc: O(n)
+
+
 /**
  * Your HitCounter object will be instantiated and called as such:
  * HitCounter obj = new HitCounter();

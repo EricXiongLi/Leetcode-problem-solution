@@ -1,28 +1,29 @@
 class Solution {
     public int[] asteroidCollision(int[] asteroids) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        for (int ast : asteroids) {
-            if (ast < 0) {
-                while (!stack.isEmpty() && stack.peek() > 0 && stack.peek() < ast * -1) {
-                    stack.pop();
+        Deque<Integer> dq = new LinkedList<>();
+
+        for (int i = 0; i < asteroids.length; i++) {
+            if (asteroids[i] < 0) {
+                while (!dq.isEmpty() && dq.peek() > 0 && dq.peek() + asteroids[i] < 0) {
+                    dq.pop();
                 }
-                if (stack.isEmpty()) {
-                    stack.push(ast);
-                } else if (stack.peek() < 0) {
-                    stack.push(ast);
-                } else if (Math.abs(stack.peek()) == -ast) {
-                    stack.pop();
+                
+                if (dq.isEmpty() || dq.peek() < 0) {
+                    dq.push(asteroids[i]);
+                } else if (!dq.isEmpty() & dq.peek() > 0 && dq.peek() + asteroids[i] == 0) {
+                    dq.pop();
                 }
             } else {
-                stack.push(ast);
+                dq.push(asteroids[i]);
             }
         }
-        int sz = stack.size();
-        int[] res = new int[sz];
-        for (int i = 0; i < sz; i++) {
-            res[i] = stack.pollLast();
+
+        int[] res = new int[dq.size()];
+
+        for (int i = 0; i < res.length; i++) {
+            res[i] = dq.pollLast();
         }
+
         return res;
-        
     }
 }

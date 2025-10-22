@@ -3,10 +3,7 @@
 
 public class Solution extends VersionControl {
     public int firstBadVersion(int n) {
-        // [F, T, T]
-        // l, m, r
-        //lmr
-        //mr  l
+        //flef, f, t, t, t
         int left = 1, right = n;
         while (left <= right) {
             int mid = left + (right - left) / 2;
@@ -16,6 +13,7 @@ public class Solution extends VersionControl {
                 left = mid + 1;
             }
         }
+
         return left;
     }
 }

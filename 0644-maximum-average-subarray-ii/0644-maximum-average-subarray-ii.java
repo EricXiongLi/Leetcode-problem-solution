@@ -1,8 +1,8 @@
 class Solution {
     public double findMaxAverage(int[] nums, int k) {
         double l = -10000, r = 10000;
+        //t, t, t, f, f
         double epsilon = 1e-5;
-        
         while (r - l > epsilon) {
             double m = l + (r - l) / 2;
             if (check(nums, k, m)) {
@@ -11,10 +11,10 @@ class Solution {
                 r = m;
             }
         }
-        
-        return l;
+
+        return r;
     }
-    
+
     public boolean check(int[] nums, int k, double x) {
         int n = nums.length;
         double[] arr = new double[n];

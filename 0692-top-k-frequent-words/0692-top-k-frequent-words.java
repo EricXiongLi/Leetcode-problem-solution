@@ -1,38 +1,24 @@
 class Solution {
-    class Word implements Comparable<Word> {
-        private String word;
-        private int count;
-
-        public Word(String word, int count) {
-            this.word = word;
-            this.count = count;
-        }
-
-        public int compareTo(Word other) {
-            if (this.count == other.count) {
-                return this.word.compareTo(other.word);
-            }
-            return other.count - this.count;
-        }
-    }
-
     public List<String> topKFrequent(String[] words, int k) {
         Map<String, Integer> cnt = new HashMap<>();
         for (String word : words) {
             cnt.put(word, cnt.getOrDefault(word, 0) + 1);
         }
+        PriorityQueue<String> h = new PriorityQueue<>(
+                (w1, w2) -> cnt.get(w1).equals(cnt.get(w2)) ? w2.compareTo(w1) : cnt.get(w1) - cnt.get(w2));
 
-        List<Word> candidates = new ArrayList<>();
-        for (var entry : cnt.entrySet()) {
-            candidates.add(new Word(entry.getKey(), entry.getValue()));
+        for (String word : cnt.keySet()) {
+            h.offer(word);
+            if (h.size() > k) {
+                h.poll();
+            }
         }
 
-        Queue<Word> h = new PriorityQueue<>(candidates);
         List<String> res = new ArrayList<>();
-        for (int i = 0; i < k; i++) {
-            res.add(h.poll().word);
+        while (!h.isEmpty()) {
+            res.add(h.poll());
         }
+        Collections.reverse(res);
         return res;
-
     }
 }

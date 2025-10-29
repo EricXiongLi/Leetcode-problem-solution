@@ -1,23 +1,19 @@
 class Solution {
     public int minAddToMakeValid(String s) {
-        // unmatched left parentesse, and right parenthese
-        int left = 0, right = 0;
-        
+        int count = 0;
+        int res = 0;
         for (char c : s.toCharArray()) {
             if (c == '(') {
-                left++;
+                count++;
             } else if (c == ')') {
-                if (left > 0) {
-                    left--;
-                } else {
-                    right++;
-                }
+                count--;
+            }
+            if (count < 0) {
+                res += Math.abs(count);
+                count = 0;
             }
         }
-        
-        return left + right;
+
+        return res + count;
     }
 }
-
-//tc: O(n)
-//sc: O(1);
